@@ -17,9 +17,6 @@ Partial Class frmMainMenu
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
 
-    'NOTE: The following procedure is required by the Windows Form Designer
-    'It can be modified using the Windows Form Designer.  
-    'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
@@ -47,11 +44,11 @@ Partial Class frmMainMenu
         ' 
         ' Panel1
         ' 
+        Panel1.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
         Panel1.BackColor = Color.FromArgb(CByte(0), CByte(122), CByte(204))
         Panel1.Controls.Add(lblDateTime)
         Panel1.Controls.Add(lblWelcome)
         Panel1.Controls.Add(lblSystemTitle)
-        Panel1.Dock = DockStyle.Top
         Panel1.Location = New Point(0, 0)
         Panel1.Margin = New Padding(4, 3, 4, 3)
         Panel1.Name = "Panel1"
@@ -97,6 +94,7 @@ Partial Class frmMainMenu
         ' 
         ' Panel2
         ' 
+        Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         Panel2.BackColor = Color.White
         Panel2.BorderStyle = BorderStyle.FixedSingle
         Panel2.Controls.Add(Label1)
@@ -114,6 +112,7 @@ Partial Class frmMainMenu
         ' 
         ' Label1
         ' 
+        Label1.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         Label1.BackColor = Color.SteelBlue
         Label1.Font = New Font("Microsoft Sans Serif", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         Label1.ForeColor = Color.White
@@ -127,6 +126,7 @@ Partial Class frmMainMenu
         ' 
         ' PictureBox1
         ' 
+        PictureBox1.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         PictureBox1.BackColor = Color.SteelBlue
         PictureBox1.Location = New Point(443, 265)
         PictureBox1.Margin = New Padding(4, 3, 4, 3)
@@ -153,6 +153,7 @@ Partial Class frmMainMenu
         ' 
         ' btnUserManagement
         ' 
+        btnUserManagement.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnUserManagement.BackColor = Color.SteelBlue
         btnUserManagement.Cursor = Cursors.Hand
         btnUserManagement.FlatAppearance.BorderSize = 0
@@ -185,6 +186,7 @@ Partial Class frmMainMenu
         ' 
         ' btnIssuedEquipment
         ' 
+        btnIssuedEquipment.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnIssuedEquipment.BackColor = Color.SteelBlue
         btnIssuedEquipment.Cursor = Cursors.Hand
         btnIssuedEquipment.FlatAppearance.BorderSize = 0
@@ -217,6 +219,7 @@ Partial Class frmMainMenu
         ' 
         ' Panel3
         ' 
+        Panel3.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         Panel3.BackColor = Color.White
         Panel3.BorderStyle = BorderStyle.FixedSingle
         Panel3.Controls.Add(btnExit)
@@ -229,6 +232,7 @@ Partial Class frmMainMenu
         ' 
         ' btnExit
         ' 
+        btnExit.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         btnExit.BackColor = Color.FromArgb(CByte(220), CByte(53), CByte(69))
         btnExit.Cursor = Cursors.Hand
         btnExit.FlatAppearance.BorderSize = 0
@@ -273,12 +277,14 @@ Partial Class frmMainMenu
         Controls.Add(Panel3)
         Controls.Add(Panel2)
         Controls.Add(Panel1)
-        FormBorderStyle = FormBorderStyle.FixedSingle
+        FormBorderStyle = FormBorderStyle.Sizable
         Margin = New Padding(4, 3, 4, 3)
-        MaximizeBox = False
+        MaximizeBox = True
+        MinimumSize = New Size(949, 789)
         Name = "frmMainMenu"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Inventory Management System - Main Menu"
+        WindowState = FormWindowState.Maximized
         Panel1.ResumeLayout(False)
         Panel1.PerformLayout()
         Panel2.ResumeLayout(False)

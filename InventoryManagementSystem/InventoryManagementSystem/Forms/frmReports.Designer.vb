@@ -46,30 +46,36 @@ Partial Class frmReports
         '
         'btnGenerate
         '
+        Me.btnGenerate.BackColor = System.Drawing.Color.SteelBlue
+        Me.btnGenerate.ForeColor = System.Drawing.Color.White
         Me.btnGenerate.Location = New System.Drawing.Point(340, 18)
         Me.btnGenerate.Name = "btnGenerate"
         Me.btnGenerate.Size = New System.Drawing.Size(120, 30)
         Me.btnGenerate.TabIndex = 1
         Me.btnGenerate.Text = "Generate Report"
-        Me.btnGenerate.UseVisualStyleBackColor = True
+        Me.btnGenerate.UseVisualStyleBackColor = False
         '
         'btnRefresh
         '
+        Me.btnRefresh.BackColor = System.Drawing.Color.SteelBlue
+        Me.btnRefresh.ForeColor = System.Drawing.Color.White
         Me.btnRefresh.Location = New System.Drawing.Point(470, 18)
         Me.btnRefresh.Name = "btnRefresh"
         Me.btnRefresh.Size = New System.Drawing.Size(100, 30)
         Me.btnRefresh.TabIndex = 2
         Me.btnRefresh.Text = "Refresh"
-        Me.btnRefresh.UseVisualStyleBackColor = True
+        Me.btnRefresh.UseVisualStyleBackColor = False
         '
         'btnClear
         '
+        Me.btnClear.BackColor = System.Drawing.Color.SteelBlue
+        Me.btnClear.ForeColor = System.Drawing.Color.White
         Me.btnClear.Location = New System.Drawing.Point(580, 18)
         Me.btnClear.Name = "btnClear"
         Me.btnClear.Size = New System.Drawing.Size(100, 30)
         Me.btnClear.TabIndex = 3
         Me.btnClear.Text = "Clear"
-        Me.btnClear.UseVisualStyleBackColor = True
+        Me.btnClear.UseVisualStyleBackColor = False
         '
         'dtpFromDate
         '
@@ -89,34 +95,42 @@ Partial Class frmReports
         '
         'btnDateFilter
         '
+        Me.btnDateFilter.BackColor = System.Drawing.Color.SteelBlue
+        Me.btnDateFilter.ForeColor = System.Drawing.Color.White
         Me.btnDateFilter.Location = New System.Drawing.Point(360, 58)
         Me.btnDateFilter.Name = "btnDateFilter"
         Me.btnDateFilter.Size = New System.Drawing.Size(120, 30)
         Me.btnDateFilter.TabIndex = 6
         Me.btnDateFilter.Text = "Filter by Date"
-        Me.btnDateFilter.UseVisualStyleBackColor = True
+        Me.btnDateFilter.UseVisualStyleBackColor = False
         '
         'btnExport
         '
+        Me.btnExport.BackColor = System.Drawing.Color.FromArgb(40, 167, 69)
+        Me.btnExport.ForeColor = System.Drawing.Color.White
         Me.btnExport.Location = New System.Drawing.Point(500, 58)
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Size = New System.Drawing.Size(150, 30)
         Me.btnExport.TabIndex = 7
         Me.btnExport.Text = "Export to CSV/Excel"
-        Me.btnExport.UseVisualStyleBackColor = True
+        Me.btnExport.UseVisualStyleBackColor = False
         '
         'btnPrint
         '
+        Me.btnPrint.BackColor = System.Drawing.Color.SteelBlue
+        Me.btnPrint.ForeColor = System.Drawing.Color.White
         Me.btnPrint.Location = New System.Drawing.Point(670, 58)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(120, 30)
         Me.btnPrint.TabIndex = 8
         Me.btnPrint.Text = "Print Report"
-        Me.btnPrint.UseVisualStyleBackColor = True
+        Me.btnPrint.UseVisualStyleBackColor = False
         '
         'DataGridView1
         '
-        Me.DataGridView1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DataGridView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Location = New System.Drawing.Point(20, 100)
         Me.DataGridView1.Name = "DataGridView1"
@@ -176,6 +190,9 @@ Partial Class frmReports
         Me.Controls.Add(Me.btnRefresh)
         Me.Controls.Add(Me.btnGenerate)
         Me.Controls.Add(Me.cmbReportType)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable
+        Me.MaximizeBox = True
+        Me.MinimumSize = New System.Drawing.Size(1200, 700)
         Me.Name = "frmReports"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Reports - Inventory Management System"

@@ -17,7 +17,6 @@ Partial Class frmUserManagement
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
 
-    'NOTE: The following procedure is required by the Windows Form Designer
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         lblTitle = New Label()
@@ -65,11 +64,12 @@ Partial Class frmUserManagement
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
         DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        DataGridView1.Size = New Size(934, 291)
+        DataGridView1.Size = New Size(934, 350)
         DataGridView1.TabIndex = 5
         ' 
         ' txtUsername
         ' 
+        txtUsername.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         txtUsername.Font = New Font("Segoe UI", 10.0F)
         txtUsername.Location = New Point(25, 470)
         txtUsername.Name = "txtUsername"
@@ -79,6 +79,7 @@ Partial Class frmUserManagement
         ' 
         ' txtFullName
         ' 
+        txtFullName.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         txtFullName.Font = New Font("Segoe UI", 10.0F)
         txtFullName.Location = New Point(215, 470)
         txtFullName.Name = "txtFullName"
@@ -88,6 +89,7 @@ Partial Class frmUserManagement
         ' 
         ' txtEmail
         ' 
+        txtEmail.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         txtEmail.Font = New Font("Segoe UI", 10.0F)
         txtEmail.Location = New Point(445, 470)
         txtEmail.Name = "txtEmail"
@@ -97,6 +99,7 @@ Partial Class frmUserManagement
         ' 
         ' txtPassword
         ' 
+        txtPassword.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         txtPassword.Font = New Font("Segoe UI", 10.0F)
         txtPassword.Location = New Point(25, 505)
         txtPassword.Name = "txtPassword"
@@ -107,6 +110,7 @@ Partial Class frmUserManagement
         ' 
         ' txtConfirmPassword
         ' 
+        txtConfirmPassword.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         txtConfirmPassword.Font = New Font("Segoe UI", 10.0F)
         txtConfirmPassword.Location = New Point(215, 505)
         txtConfirmPassword.Name = "txtConfirmPassword"
@@ -117,6 +121,7 @@ Partial Class frmUserManagement
         ' 
         ' cmbUserRole
         ' 
+        cmbUserRole.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         cmbUserRole.DropDownStyle = ComboBoxStyle.DropDownList
         cmbUserRole.Font = New Font("Segoe UI", 10.0F)
         cmbUserRole.Location = New Point(445, 505)
@@ -144,66 +149,83 @@ Partial Class frmUserManagement
         ' 
         ' btnSearch
         ' 
+        btnSearch.BackColor = Color.SteelBlue
+        btnSearch.ForeColor = Color.White
         btnSearch.Font = New Font("Segoe UI", 10.0F)
         btnSearch.Location = New Point(480, 60)
         btnSearch.Name = "btnSearch"
         btnSearch.Size = New Size(80, 27)
         btnSearch.TabIndex = 3
         btnSearch.Text = "Search"
-        btnSearch.UseVisualStyleBackColor = True
+        btnSearch.UseVisualStyleBackColor = False
         ' 
         ' btnRefresh
         ' 
+        btnRefresh.BackColor = Color.SteelBlue
+        btnRefresh.ForeColor = Color.White
         btnRefresh.Font = New Font("Segoe UI", 10.0F)
         btnRefresh.Location = New Point(570, 60)
         btnRefresh.Name = "btnRefresh"
         btnRefresh.Size = New Size(80, 27)
         btnRefresh.TabIndex = 4
         btnRefresh.Text = "Refresh"
-        btnRefresh.UseVisualStyleBackColor = True
+        btnRefresh.UseVisualStyleBackColor = False
         ' 
         ' btnAdd
         ' 
+        btnAdd.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
+        btnAdd.BackColor = Color.SteelBlue
+        btnAdd.ForeColor = Color.White
         btnAdd.Font = New Font("Segoe UI", 10.0F)
         btnAdd.Location = New Point(25, 570)
         btnAdd.Name = "btnAdd"
         btnAdd.Size = New Size(90, 30)
         btnAdd.TabIndex = 14
         btnAdd.Text = "Add"
-        btnAdd.UseVisualStyleBackColor = True
+        btnAdd.UseVisualStyleBackColor = False
         ' 
         ' btnUpdate
         ' 
+        btnUpdate.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
+        btnUpdate.BackColor = Color.SteelBlue
+        btnUpdate.ForeColor = Color.White
         btnUpdate.Font = New Font("Segoe UI", 10.0F)
         btnUpdate.Location = New Point(125, 570)
         btnUpdate.Name = "btnUpdate"
         btnUpdate.Size = New Size(90, 30)
         btnUpdate.TabIndex = 15
         btnUpdate.Text = "Update"
-        btnUpdate.UseVisualStyleBackColor = True
+        btnUpdate.UseVisualStyleBackColor = False
         ' 
         ' btnDelete
         ' 
+        btnDelete.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
+        btnDelete.BackColor = Color.SteelBlue
+        btnDelete.ForeColor = Color.White
         btnDelete.Font = New Font("Segoe UI", 10.0F)
         btnDelete.Location = New Point(225, 570)
         btnDelete.Name = "btnDelete"
         btnDelete.Size = New Size(90, 30)
         btnDelete.TabIndex = 16
         btnDelete.Text = "Delete"
-        btnDelete.UseVisualStyleBackColor = True
+        btnDelete.UseVisualStyleBackColor = False
         ' 
         ' btnResetPassword
         ' 
+        btnResetPassword.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
+        btnResetPassword.BackColor = Color.SteelBlue
+        btnResetPassword.ForeColor = Color.White
         btnResetPassword.Font = New Font("Segoe UI", 10.0F)
         btnResetPassword.Location = New Point(325, 570)
         btnResetPassword.Name = "btnResetPassword"
         btnResetPassword.Size = New Size(130, 30)
         btnResetPassword.TabIndex = 17
         btnResetPassword.Text = "Reset Password"
-        btnResetPassword.UseVisualStyleBackColor = True
+        btnResetPassword.UseVisualStyleBackColor = False
         ' 
         ' chkIsActive
         ' 
+        chkIsActive.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         chkIsActive.AutoSize = True
         chkIsActive.Checked = True
         chkIsActive.CheckState = CheckState.Checked
@@ -216,6 +238,7 @@ Partial Class frmUserManagement
         ' 
         ' lblPasswordNote
         ' 
+        lblPasswordNote.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
         lblPasswordNote.AutoSize = True
         lblPasswordNote.Font = New Font("Segoe UI", 9.0F, FontStyle.Italic)
         lblPasswordNote.ForeColor = Color.Gray
@@ -227,6 +250,7 @@ Partial Class frmUserManagement
         ' 
         ' lblTotalUsers
         ' 
+        lblTotalUsers.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         lblTotalUsers.AutoSize = True
         lblTotalUsers.Font = New Font("Segoe UI", 10.0F, FontStyle.Bold)
         lblTotalUsers.Location = New Point(750, 470)
@@ -237,6 +261,7 @@ Partial Class frmUserManagement
         ' 
         ' lblUserStats
         ' 
+        lblUserStats.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         lblUserStats.AutoSize = True
         lblUserStats.Font = New Font("Segoe UI", 9.0F)
         lblUserStats.ForeColor = Color.Gray
@@ -250,7 +275,7 @@ Partial Class frmUserManagement
         ' 
         AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(984, 561)
+        ClientSize = New Size(984, 650)
         Controls.Add(lblTitle)
         Controls.Add(txtSearch)
         Controls.Add(cmbRoleFilter)
@@ -271,10 +296,13 @@ Partial Class frmUserManagement
         Controls.Add(btnResetPassword)
         Controls.Add(lblTotalUsers)
         Controls.Add(lblUserStats)
-        MaximizeBox = False
+        FormBorderStyle = FormBorderStyle.Sizable
+        MaximizeBox = True
+        MinimumSize = New Size(1000, 650)
         Name = "frmUserManagement"
         StartPosition = FormStartPosition.CenterScreen
         Text = "User Management"
+        WindowState = FormWindowState.Maximized
         CType(DataGridView1, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()

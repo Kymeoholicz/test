@@ -79,6 +79,7 @@ Partial Class frmInventory
         '
         'lblLocation
         '
+        lblLocation.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         lblLocation.Location = New Point(600, 120)
         lblLocation.Name = "lblLocation"
         lblLocation.Size = New Size(80, 25)
@@ -101,6 +102,7 @@ Partial Class frmInventory
         '
         'txtLocation
         '
+        txtLocation.Anchor = AnchorStyles.Top Or AnchorStyles.Right
         txtLocation.Location = New Point(680, 120)
         txtLocation.Name = "txtLocation"
         txtLocation.Size = New Size(200, 23)
@@ -205,6 +207,7 @@ Partial Class frmInventory
         'dgvInventory
         '
         dgvInventory.AllowUserToAddRows = False
+        dgvInventory.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         dgvInventory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
         dgvInventory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         dgvInventory.Location = New Point(40, 280)
@@ -254,11 +257,13 @@ Partial Class frmInventory
         Controls.Add(lblQuantity)
         Controls.Add(lblCategory)
         Controls.Add(lblItemName)
-        FormBorderStyle = FormBorderStyle.FixedSingle
-        MaximizeBox = False
+        FormBorderStyle = FormBorderStyle.Sizable
+        MaximizeBox = True
+        MinimumSize = New Size(1000, 650)
         Name = "frmInventory"
         StartPosition = FormStartPosition.CenterScreen
         Text = "Inventory Management"
+        WindowState = FormWindowState.Maximized
         CType(dgvInventory, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
         PerformLayout()

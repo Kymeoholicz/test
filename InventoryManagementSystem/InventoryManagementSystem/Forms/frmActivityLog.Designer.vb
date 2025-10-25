@@ -80,51 +80,63 @@ Partial Class frmActivityLog
         '
         'btnFilter
         '
+        Me.btnFilter.BackColor = System.Drawing.Color.SteelBlue
+        Me.btnFilter.ForeColor = System.Drawing.Color.White
         Me.btnFilter.Location = New System.Drawing.Point(620, 10)
         Me.btnFilter.Name = "btnFilter"
         Me.btnFilter.Size = New System.Drawing.Size(75, 25)
         Me.btnFilter.Text = "Filter"
-        Me.btnFilter.UseVisualStyleBackColor = True
+        Me.btnFilter.UseVisualStyleBackColor = False
         '
         'btnSearch
         '
+        Me.btnSearch.BackColor = System.Drawing.Color.SteelBlue
+        Me.btnSearch.ForeColor = System.Drawing.Color.White
         Me.btnSearch.Location = New System.Drawing.Point(700, 10)
         Me.btnSearch.Name = "btnSearch"
         Me.btnSearch.Size = New System.Drawing.Size(75, 25)
         Me.btnSearch.Text = "Search"
-        Me.btnSearch.UseVisualStyleBackColor = True
+        Me.btnSearch.UseVisualStyleBackColor = False
         '
         'btnRefresh
         '
+        Me.btnRefresh.BackColor = System.Drawing.Color.SteelBlue
+        Me.btnRefresh.ForeColor = System.Drawing.Color.White
         Me.btnRefresh.Location = New System.Drawing.Point(780, 10)
         Me.btnRefresh.Name = "btnRefresh"
         Me.btnRefresh.Size = New System.Drawing.Size(75, 25)
         Me.btnRefresh.Text = "Refresh"
-        Me.btnRefresh.UseVisualStyleBackColor = True
+        Me.btnRefresh.UseVisualStyleBackColor = False
         '
         'btnExport
         '
+        Me.btnExport.BackColor = System.Drawing.Color.FromArgb(40, 167, 69)
+        Me.btnExport.ForeColor = System.Drawing.Color.White
         Me.btnExport.Location = New System.Drawing.Point(860, 10)
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Size = New System.Drawing.Size(120, 25)
         Me.btnExport.Text = "Export to CSV"
-        Me.btnExport.UseVisualStyleBackColor = True
+        Me.btnExport.UseVisualStyleBackColor = False
         '
         'btnClearOldLogs
         '
+        Me.btnClearOldLogs.BackColor = System.Drawing.Color.FromArgb(220, 53, 69)
+        Me.btnClearOldLogs.ForeColor = System.Drawing.Color.White
         Me.btnClearOldLogs.Location = New System.Drawing.Point(12, 45)
         Me.btnClearOldLogs.Name = "btnClearOldLogs"
         Me.btnClearOldLogs.Size = New System.Drawing.Size(180, 25)
         Me.btnClearOldLogs.Text = "Clear Old Logs (90+ days)"
-        Me.btnClearOldLogs.UseVisualStyleBackColor = True
+        Me.btnClearOldLogs.UseVisualStyleBackColor = False
         '
         'btnDateFilter
         '
+        Me.btnDateFilter.BackColor = System.Drawing.Color.SteelBlue
+        Me.btnDateFilter.ForeColor = System.Drawing.Color.White
         Me.btnDateFilter.Location = New System.Drawing.Point(200, 45)
         Me.btnDateFilter.Name = "btnDateFilter"
         Me.btnDateFilter.Size = New System.Drawing.Size(130, 25)
         Me.btnDateFilter.Text = "Filter by Date Range"
-        Me.btnDateFilter.UseVisualStyleBackColor = True
+        Me.btnDateFilter.UseVisualStyleBackColor = False
         '
         'lblTotalRecords
         '
@@ -146,11 +158,14 @@ Partial Class frmActivityLog
         '
         'DataGridView1
         '
-        Me.DataGridView1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.DataGridView1.Location = New System.Drawing.Point(0, 110)
+        Me.DataGridView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView1.Location = New System.Drawing.Point(12, 110)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.ReadOnly = True
-        Me.DataGridView1.Size = New System.Drawing.Size(1000, 400)
+        Me.DataGridView1.Size = New System.Drawing.Size(976, 388)
         '
         'frmActivityLog
         '
@@ -168,8 +183,13 @@ Partial Class frmActivityLog
         Me.Controls.Add(Me.lblTotalRecords)
         Me.Controls.Add(Me.lblActivitySummary)
         Me.Controls.Add(Me.DataGridView1)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable
+        Me.MaximizeBox = True
+        Me.MinimumSize = New System.Drawing.Size(1000, 500)
         Me.Name = "frmActivityLog"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Activity Log Management"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

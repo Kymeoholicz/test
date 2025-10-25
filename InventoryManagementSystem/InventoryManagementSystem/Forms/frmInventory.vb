@@ -5,7 +5,6 @@ Public Class frmInventory
     ' ===== Class-level variables =====
     Private selectedItemID As Integer = 0
     Private isClosing As Boolean = False
-    Private currentDataTable As DataTable = Nothing
     Private ReadOnly dataLock As New Object()
 
     ' ===== Form Load =====
@@ -13,65 +12,81 @@ Public Class frmInventory
         Me.Text = "Inventory Management"
         Me.WindowState = FormWindowState.Maximized
 
+        ' Setup DataGridView columns FIRST
+        SetupDataGridView()
+
         LoadData()
         ClearFields()
     End Sub
 
-    ' ===== Load Data =====
+    ' ===== Setup DataGridView (ONE TIME ONLY) =====
+    Private Sub SetupDataGridView()
+        dgvInventory.Columns.Clear()
+        dgvInventory.Rows.Clear()
+
+        ' Add columns manually
+        dgvInventory.Columns.Add("ItemID", "ID")
+        dgvInventory.Columns.Add("ItemName", "Item Name")
+        dgvInventory.Columns.Add("Category", "Category")
+        dgvInventory.Columns.Add("Quantity", "Quantity")
+        dgvInventory.Columns.Add("Condition", "Condition")
+        dgvInventory.Columns.Add("Location", "Location")
+        dgvInventory.Columns.Add("DateAdded", "Date Added")
+
+        ' Format columns
+        With dgvInventory
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            .MultiSelect = False
+            .ReadOnly = True
+            .AllowUserToAddRows = False
+            .AllowUserToDeleteRows = False
+            .RowHeadersVisible = False
+            .AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray
+        End With
+
+        ' Set specific widths
+        dgvInventory.Columns(0).Width = 60  ' ID
+        dgvInventory.Columns(1).Width = 150 ' Item Name
+        dgvInventory.Columns(2).Width = 100 ' Category
+        dgvInventory.Columns(3).Width = 80  ' Quantity
+        dgvInventory.Columns(4).Width = 100 ' Condition
+        dgvInventory.Columns(5).Width = 150 ' Location
+        dgvInventory.Columns(6).Width = 120 ' Date
+    End Sub
+
+    ' ===== Load Data - MANUAL POPULATION (NO DATABINDING) =====
     Private Sub LoadData()
         If isClosing Then Return
 
-        ' Critical: Check if controls still exist
+        ' CRITICAL: Check if controls still exist
         If dgvInventory Is Nothing OrElse dgvInventory.IsDisposed Then Return
 
         SyncLock dataLock
             Try
-                ' Simple unbind without dispose
-                dgvInventory.DataSource = Nothing
-
-                ' Create NEW DataTable
-                Dim newDt As New DataTable()
+                ' Clear existing rows
+                dgvInventory.Rows.Clear()
 
                 Using con As OleDbConnection = DatabaseConfig.GetConnection()
                     con.Open()
 
                     Using cmd As New OleDbCommand("SELECT ItemID, ItemName, Category, Quantity, [Condition], [Location], DateAdded FROM tblInventory ORDER BY ItemID DESC", con)
-                        Using adapter As New OleDbDataAdapter(cmd)
-                            adapter.Fill(newDt)
+                        Using reader As OleDbDataReader = cmd.ExecuteReader()
+                            ' Manually add rows from reader
+                            While reader.Read() AndAlso Not isClosing
+                                dgvInventory.Rows.Add(
+                                    If(IsDBNull(reader(0)), 0, reader(0)),
+                                    If(IsDBNull(reader(1)), "", reader(1).ToString()),
+                                    If(IsDBNull(reader(2)), "", reader(2).ToString()),
+                                    If(IsDBNull(reader(3)), 0, reader(3)),
+                                    If(IsDBNull(reader(4)), "", reader(4).ToString()),
+                                    If(IsDBNull(reader(5)), "", reader(5).ToString()),
+                                    If(IsDBNull(reader(6)), DateTime.Now, CDate(reader(6)).ToString("yyyy-MM-dd"))
+                                )
+                            End While
                         End Using
                     End Using
                 End Using
-
-                ' Dispose OLD DataTable after creating new one
-                If currentDataTable IsNot Nothing Then
-                    Try
-                        currentDataTable.Dispose()
-                    Catch
-                    End Try
-                End If
-
-                ' Assign new DataTable
-                currentDataTable = newDt
-                dgvInventory.DataSource = currentDataTable
-
-                ' Format columns after binding
-                If dgvInventory.Columns.Count > 0 Then
-                    dgvInventory.Columns(0).HeaderText = "ID"
-                    dgvInventory.Columns(1).HeaderText = "Item Name"
-                    dgvInventory.Columns(2).HeaderText = "Category"
-                    dgvInventory.Columns(3).HeaderText = "Quantity"
-                    dgvInventory.Columns(4).HeaderText = "Condition"
-                    dgvInventory.Columns(5).HeaderText = "Location"
-                    dgvInventory.Columns(6).HeaderText = "Date Added"
-
-                    dgvInventory.Columns(0).Width = 60
-                    dgvInventory.Columns(1).Width = 150
-                    dgvInventory.Columns(2).Width = 100
-                    dgvInventory.Columns(3).Width = 80
-                    dgvInventory.Columns(4).Width = 100
-                    dgvInventory.Columns(5).Width = 150
-                    dgvInventory.Columns(6).Width = 120
-                End If
 
             Catch ex As Exception
                 If Not isClosing Then
@@ -191,11 +206,7 @@ Public Class frmInventory
 
         SyncLock dataLock
             Try
-                ' Unbind
-                dgvInventory.DataSource = Nothing
-
-                ' Create new DataTable for search results
-                Dim searchDt As New DataTable()
+                dgvInventory.Rows.Clear()
 
                 Using con As OleDbConnection = DatabaseConfig.GetConnection()
                     con.Open()
@@ -206,23 +217,21 @@ Public Class frmInventory
                         cmd.Parameters.Add("@Category", OleDbType.VarWChar, 50).Value = likeTerm
                         cmd.Parameters.Add("@Location", OleDbType.VarWChar, 100).Value = likeTerm
 
-                        Using adapter As New OleDbDataAdapter(cmd)
-                            adapter.Fill(searchDt)
+                        Using reader As OleDbDataReader = cmd.ExecuteReader()
+                            While reader.Read() AndAlso Not isClosing
+                                dgvInventory.Rows.Add(
+                                    If(IsDBNull(reader(0)), 0, reader(0)),
+                                    If(IsDBNull(reader(1)), "", reader(1).ToString()),
+                                    If(IsDBNull(reader(2)), "", reader(2).ToString()),
+                                    If(IsDBNull(reader(3)), 0, reader(3)),
+                                    If(IsDBNull(reader(4)), "", reader(4).ToString()),
+                                    If(IsDBNull(reader(5)), "", reader(5).ToString()),
+                                    If(IsDBNull(reader(6)), DateTime.Now, CDate(reader(6)).ToString("yyyy-MM-dd"))
+                                )
+                            End While
                         End Using
                     End Using
                 End Using
-
-                ' Dispose old DataTable
-                If currentDataTable IsNot Nothing Then
-                    Try
-                        currentDataTable.Dispose()
-                    Catch
-                    End Try
-                End If
-
-                ' Assign new search results
-                currentDataTable = searchDt
-                dgvInventory.DataSource = currentDataTable
 
             Catch ex As Exception
                 If Not isClosing Then
@@ -236,7 +245,6 @@ Public Class frmInventory
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
         Try
             If MessageBox.Show("Return to Main Menu?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                ' Simply close this dialog form - returns to main menu automatically
                 Me.DialogResult = DialogResult.OK
                 Me.Close()
             End If
@@ -251,20 +259,17 @@ Public Class frmInventory
         If e.RowIndex < 0 Then Return
 
         Try
-            ' Prevent access during form closing
             If dgvInventory Is Nothing OrElse dgvInventory.IsDisposed Then Return
 
             Dim row As DataGridViewRow = dgvInventory.Rows(e.RowIndex)
-
-            ' Validate row exists and has cells
             If row Is Nothing OrElse row.Cells.Count < 6 Then Return
 
-            selectedItemID = If(row.Cells(0).Value IsNot DBNull.Value, CInt(row.Cells(0).Value), 0)
-            txtItemName.Text = If(row.Cells(1).Value IsNot DBNull.Value, row.Cells(1).Value.ToString(), "")
-            txtCategory.Text = If(row.Cells(2).Value IsNot DBNull.Value, row.Cells(2).Value.ToString(), "")
-            txtQuantity.Text = If(row.Cells(3).Value IsNot DBNull.Value, row.Cells(3).Value.ToString(), "")
-            txtCondition.Text = If(row.Cells(4).Value IsNot DBNull.Value, row.Cells(4).Value.ToString(), "")
-            txtLocation.Text = If(row.Cells(5).Value IsNot DBNull.Value, row.Cells(5).Value.ToString(), "")
+            selectedItemID = If(row.Cells(0).Value IsNot Nothing AndAlso Not IsDBNull(row.Cells(0).Value), CInt(row.Cells(0).Value), 0)
+            txtItemName.Text = If(row.Cells(1).Value IsNot Nothing, row.Cells(1).Value.ToString(), "")
+            txtCategory.Text = If(row.Cells(2).Value IsNot Nothing, row.Cells(2).Value.ToString(), "")
+            txtQuantity.Text = If(row.Cells(3).Value IsNot Nothing, row.Cells(3).Value.ToString(), "")
+            txtCondition.Text = If(row.Cells(4).Value IsNot Nothing, row.Cells(4).Value.ToString(), "")
+            txtLocation.Text = If(row.Cells(5).Value IsNot Nothing, row.Cells(5).Value.ToString(), "")
 
             btnAdd.Enabled = False
             btnUpdate.Enabled = True
@@ -333,34 +338,33 @@ Public Class frmInventory
         End Try
     End Sub
 
-    ' ===== Form Closing - Clean up COM objects =====
+    ' ===== Form Closing - MINIMAL CLEANUP =====
     Private Sub frmInventory_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         Try
-            ' Set flag FIRST to stop all operations
+            ' Set flag FIRST
             isClosing = True
 
-            ' Remove event handlers to prevent any callbacks during cleanup
+            ' Small delay to let any operations finish
+            Thread.Sleep(50)
+
+            ' Remove event handlers
             Try
                 RemoveHandler dgvInventory.CellClick, AddressOf dgvInventory_CellClick
             Catch
             End Try
 
-            ' DO NOTHING ELSE - Let .NET handle all cleanup automatically
-            ' Any manual cleanup can cause COM access violations
+            ' Minimal cleanup
+            Try
+                SyncLock dataLock
+                    If dgvInventory IsNot Nothing AndAlso Not dgvInventory.IsDisposed Then
+                        dgvInventory.Rows.Clear()
+                    End If
+                End SyncLock
+            Catch
+            End Try
 
         Catch ex As Exception
-            ' Swallow ALL exceptions during form closing
             Debug.WriteLine("FormClosing error: " & ex.Message)
-        End Try
-    End Sub
-
-    ' ===== Form Closed - Final cleanup =====
-    Private Sub frmInventory_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
-        ' Minimal cleanup - just suppress finalization
-        Try
-            GC.SuppressFinalize(Me)
-        Catch
-            ' Ignore any errors
         End Try
     End Sub
 
