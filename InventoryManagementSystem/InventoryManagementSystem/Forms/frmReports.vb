@@ -10,7 +10,9 @@ Public Class frmReports
     Private Sub frmReports_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         con = DatabaseConfig.GetConnection()
         Me.Text = "Reports - Inventory Management System"
-        Me.WindowState = FormWindowState.Maximized
+        Me.WindowState = FormWindowState.Normal
+        Me.StartPosition = FormStartPosition.CenterScreen
+        Me.Size = New Size(1200, 750)
 
         ' Populate report types
         cmbReportType.Items.Clear()

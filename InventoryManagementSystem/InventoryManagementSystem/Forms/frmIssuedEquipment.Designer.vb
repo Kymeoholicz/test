@@ -2,7 +2,6 @@
 Partial Class frmIssuedEquipment
     Inherits System.Windows.Forms.Form
 
-    'Form overrides dispose to clean up the component list.
     <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
@@ -14,7 +13,6 @@ Partial Class frmIssuedEquipment
         End Try
     End Sub
 
-    'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
 
     <System.Diagnostics.DebuggerStepThrough()>
@@ -45,263 +43,208 @@ Partial Class frmIssuedEquipment
         lblOverdue = New Label()
         lblTotalIssued = New Label()
         Panel2 = New Panel()
+        btnBack = New Button()
         CType(DataGridView1, ComponentModel.ISupportInitialize).BeginInit()
         Panel1.SuspendLayout()
         Panel2.SuspendLayout()
         SuspendLayout()
-        ' 
-        ' Label1
-        ' 
+
+        'btnBack
+        btnBack.BackColor = Color.FromArgb(CByte(0), CByte(120), CByte(215))
+        btnBack.FlatAppearance.BorderSize = 0
+        btnBack.FlatStyle = FlatStyle.Flat
+        btnBack.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point)
+        btnBack.ForeColor = Color.White
+        btnBack.Location = New Point(20, 20)
+        btnBack.Name = "btnBack"
+        btnBack.Size = New Size(180, 35)
+        btnBack.TabIndex = 23
+        btnBack.Text = "← Back to Main Menu"
+        btnBack.UseVisualStyleBackColor = False
+
+        'Label1
         Label1.AutoSize = True
-        Label1.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label1.Location = New Point(14, 17)
-        Label1.Margin = New Padding(4, 0, 4, 0)
+        Label1.Font = New Font("Microsoft Sans Serif", 9.75F)
+        Label1.Location = New Point(14, 67)
         Label1.Name = "Label1"
         Label1.Size = New Size(76, 16)
-        Label1.TabIndex = 0
         Label1.Text = "Select Item:"
-        ' 
-        ' cmbItemID
-        ' 
+
+        'cmbItemID
         cmbItemID.DropDownStyle = ComboBoxStyle.DropDownList
-        cmbItemID.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        cmbItemID.FormattingEnabled = True
-        cmbItemID.Location = New Point(113, 14)
-        cmbItemID.Margin = New Padding(4, 3, 4, 3)
+        cmbItemID.Font = New Font("Microsoft Sans Serif", 9.75F)
+        cmbItemID.Location = New Point(113, 64)
         cmbItemID.Name = "cmbItemID"
         cmbItemID.Size = New Size(349, 24)
         cmbItemID.TabIndex = 1
-        ' 
-        ' lblAvailableQty
-        ' 
+
+        'lblAvailableQty
         lblAvailableQty.AutoSize = True
-        lblAvailableQty.Font = New Font("Microsoft Sans Serif", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblAvailableQty.ForeColor = SystemColors.ControlText
-        lblAvailableQty.Location = New Point(490, 16)
-        lblAvailableQty.Margin = New Padding(4, 0, 4, 0)
+        lblAvailableQty.Font = New Font("Microsoft Sans Serif", 11.25F, FontStyle.Bold)
+        lblAvailableQty.Location = New Point(490, 66)
         lblAvailableQty.Name = "lblAvailableQty"
         lblAvailableQty.Size = New Size(93, 18)
-        lblAvailableQty.TabIndex = 2
         lblAvailableQty.Text = "Available: 0"
-        ' 
-        ' Label2
-        ' 
+
+        'Label2
         Label2.AutoSize = True
-        Label2.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label2.Location = New Point(14, 58)
-        Label2.Margin = New Padding(4, 0, 4, 0)
+        Label2.Font = New Font("Microsoft Sans Serif", 9.75F)
+        Label2.Location = New Point(14, 108)
         Label2.Name = "Label2"
         Label2.Size = New Size(70, 16)
-        Label2.TabIndex = 3
         Label2.Text = "Issued To:"
-        ' 
-        ' txtIssuedTo
-        ' 
-        txtIssuedTo.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        txtIssuedTo.Location = New Point(113, 54)
-        txtIssuedTo.Margin = New Padding(4, 3, 4, 3)
+
+        'txtIssuedTo
+        txtIssuedTo.Font = New Font("Microsoft Sans Serif", 9.75F)
+        txtIssuedTo.Location = New Point(113, 104)
         txtIssuedTo.Name = "txtIssuedTo"
         txtIssuedTo.Size = New Size(349, 22)
         txtIssuedTo.TabIndex = 4
-        ' 
-        ' Label3
-        ' 
+
+        'Label3
         Label3.AutoSize = True
-        Label3.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label3.Location = New Point(14, 98)
-        Label3.Margin = New Padding(4, 0, 4, 0)
+        Label3.Font = New Font("Microsoft Sans Serif", 9.75F)
+        Label3.Location = New Point(14, 148)
         Label3.Name = "Label3"
         Label3.Size = New Size(82, 16)
-        Label3.TabIndex = 5
         Label3.Text = "Date Issued:"
-        ' 
-        ' dtpDateIssued
-        ' 
-        dtpDateIssued.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+
+        'dtpDateIssued
+        dtpDateIssued.Font = New Font("Microsoft Sans Serif", 9.75F)
         dtpDateIssued.Format = DateTimePickerFormat.Short
-        dtpDateIssued.Location = New Point(120, 95)
-        dtpDateIssued.Margin = New Padding(4, 3, 4, 3)
+        dtpDateIssued.Location = New Point(120, 145)
         dtpDateIssued.Name = "dtpDateIssued"
         dtpDateIssued.Size = New Size(139, 22)
         dtpDateIssued.TabIndex = 6
-        ' 
-        ' Label4
-        ' 
+
+        'Label4
         Label4.AutoSize = True
-        Label4.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label4.Location = New Point(280, 98)
-        Label4.Margin = New Padding(4, 0, 4, 0)
+        Label4.Font = New Font("Microsoft Sans Serif", 9.75F)
+        Label4.Location = New Point(280, 148)
         Label4.Name = "Label4"
         Label4.Size = New Size(109, 16)
-        Label4.TabIndex = 7
         Label4.Text = "Expected Return:"
-        ' 
-        ' dtpReturnDate
-        ' 
-        dtpReturnDate.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+
+        'dtpReturnDate
+        dtpReturnDate.Font = New Font("Microsoft Sans Serif", 9.75F)
         dtpReturnDate.Format = DateTimePickerFormat.Short
-        dtpReturnDate.Location = New Point(414, 95)
-        dtpReturnDate.Margin = New Padding(4, 3, 4, 3)
+        dtpReturnDate.Location = New Point(414, 145)
         dtpReturnDate.Name = "dtpReturnDate"
         dtpReturnDate.Size = New Size(139, 22)
         dtpReturnDate.TabIndex = 8
-        ' 
-        ' Label5
-        ' 
+
+        'Label5
         Label5.AutoSize = True
-        Label5.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label5.Location = New Point(14, 138)
-        Label5.Margin = New Padding(4, 0, 4, 0)
+        Label5.Font = New Font("Microsoft Sans Serif", 9.75F)
+        Label5.Location = New Point(14, 188)
         Label5.Name = "Label5"
         Label5.Size = New Size(65, 16)
-        Label5.TabIndex = 9
         Label5.Text = "Remarks:"
-        ' 
-        ' txtRemarks
-        ' 
-        txtRemarks.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        txtRemarks.Location = New Point(113, 135)
-        txtRemarks.Margin = New Padding(4, 3, 4, 3)
+
+        'txtRemarks
+        txtRemarks.Font = New Font("Microsoft Sans Serif", 9.75F)
+        txtRemarks.Location = New Point(113, 185)
         txtRemarks.Multiline = True
         txtRemarks.Name = "txtRemarks"
         txtRemarks.Size = New Size(349, 57)
         txtRemarks.TabIndex = 10
-        ' 
-        ' btnIssue
-        ' 
+
+        'btnIssue
         btnIssue.BackColor = Color.SteelBlue
         btnIssue.FlatStyle = FlatStyle.Flat
-        btnIssue.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnIssue.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold)
         btnIssue.ForeColor = Color.White
-        btnIssue.Location = New Point(18, 213)
-        btnIssue.Margin = New Padding(4, 3, 4, 3)
+        btnIssue.Location = New Point(18, 263)
         btnIssue.Name = "btnIssue"
         btnIssue.Size = New Size(152, 40)
-        btnIssue.TabIndex = 11
         btnIssue.Text = "Issue Equipment"
-        btnIssue.UseVisualStyleBackColor = False
-        ' 
-        ' btnReturn
-        ' 
+
+        'btnReturn
         btnReturn.BackColor = Color.SteelBlue
         btnReturn.FlatStyle = FlatStyle.Flat
-        btnReturn.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnReturn.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold)
         btnReturn.ForeColor = Color.White
-        btnReturn.Location = New Point(176, 213)
-        btnReturn.Margin = New Padding(4, 3, 4, 3)
+        btnReturn.Location = New Point(176, 263)
         btnReturn.Name = "btnReturn"
         btnReturn.Size = New Size(152, 40)
-        btnReturn.TabIndex = 12
         btnReturn.Text = "Return Equipment"
-        btnReturn.UseVisualStyleBackColor = False
-        ' 
-        ' btnClear
-        ' 
+
+        'btnClear
         btnClear.BackColor = Color.SteelBlue
         btnClear.FlatStyle = FlatStyle.Flat
-        btnClear.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnClear.Font = New Font("Microsoft Sans Serif", 9.75F)
         btnClear.ForeColor = Color.White
-        btnClear.Location = New Point(335, 213)
-        btnClear.Margin = New Padding(4, 3, 4, 3)
+        btnClear.Location = New Point(335, 263)
         btnClear.Name = "btnClear"
         btnClear.Size = New Size(93, 40)
-        btnClear.TabIndex = 13
         btnClear.Text = "Clear"
-        btnClear.UseVisualStyleBackColor = False
-        ' 
-        ' btnRefresh
-        ' 
+
+        'btnRefresh
         btnRefresh.BackColor = Color.SteelBlue
         btnRefresh.FlatStyle = FlatStyle.Flat
-        btnRefresh.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnRefresh.Font = New Font("Microsoft Sans Serif", 9.75F)
         btnRefresh.ForeColor = Color.White
-        btnRefresh.Location = New Point(435, 213)
-        btnRefresh.Margin = New Padding(4, 3, 4, 3)
+        btnRefresh.Location = New Point(435, 263)
         btnRefresh.Name = "btnRefresh"
         btnRefresh.Size = New Size(93, 40)
-        btnRefresh.TabIndex = 14
         btnRefresh.Text = "Refresh"
-        btnRefresh.UseVisualStyleBackColor = False
-        ' 
-        ' Label6
-        ' 
+
+        'Label6
         Label6.AutoSize = True
-        Label6.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        Label6.Location = New Point(14, 275)
-        Label6.Margin = New Padding(4, 0, 4, 0)
+        Label6.Font = New Font("Microsoft Sans Serif", 9.75F)
+        Label6.Location = New Point(14, 325)
         Label6.Name = "Label6"
         Label6.Size = New Size(53, 16)
-        Label6.TabIndex = 15
         Label6.Text = "Search:"
-        ' 
-        ' txtSearch
-        ' 
-        txtSearch.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        txtSearch.Location = New Point(84, 271)
-        txtSearch.Margin = New Padding(4, 3, 4, 3)
+
+        'txtSearch
+        txtSearch.Font = New Font("Microsoft Sans Serif", 9.75F)
+        txtSearch.Location = New Point(84, 321)
         txtSearch.Name = "txtSearch"
         txtSearch.Size = New Size(233, 22)
-        txtSearch.TabIndex = 16
-        ' 
-        ' btnSearch
-        ' 
+
+        'btnSearch
         btnSearch.BackColor = Color.FromArgb(CByte(23), CByte(162), CByte(184))
         btnSearch.FlatStyle = FlatStyle.Flat
-        btnSearch.Font = New Font("Microsoft Sans Serif", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnSearch.Font = New Font("Microsoft Sans Serif", 9.0F)
         btnSearch.ForeColor = Color.White
-        btnSearch.Location = New Point(324, 268)
-        btnSearch.Margin = New Padding(4, 3, 4, 3)
+        btnSearch.Location = New Point(324, 318)
         btnSearch.Name = "btnSearch"
         btnSearch.Size = New Size(88, 32)
-        btnSearch.TabIndex = 17
         btnSearch.Text = "Search"
-        btnSearch.UseVisualStyleBackColor = False
-        ' 
-        ' btnViewAll
-        ' 
+
+        'btnViewAll
         btnViewAll.BackColor = Color.FromArgb(CByte(23), CByte(162), CByte(184))
         btnViewAll.FlatStyle = FlatStyle.Flat
-        btnViewAll.Font = New Font("Microsoft Sans Serif", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnViewAll.Font = New Font("Microsoft Sans Serif", 9.0F)
         btnViewAll.ForeColor = Color.White
-        btnViewAll.Location = New Point(419, 268)
-        btnViewAll.Margin = New Padding(4, 3, 4, 3)
+        btnViewAll.Location = New Point(419, 318)
         btnViewAll.Name = "btnViewAll"
         btnViewAll.Size = New Size(88, 32)
-        btnViewAll.TabIndex = 18
         btnViewAll.Text = "View All"
-        btnViewAll.UseVisualStyleBackColor = False
-        ' 
-        ' btnViewOverdue
-        ' 
+
+        'btnViewOverdue
         btnViewOverdue.BackColor = Color.FromArgb(CByte(220), CByte(53), CByte(69))
         btnViewOverdue.FlatStyle = FlatStyle.Flat
-        btnViewOverdue.Font = New Font("Microsoft Sans Serif", 9.0F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        btnViewOverdue.Font = New Font("Microsoft Sans Serif", 9.0F)
         btnViewOverdue.ForeColor = Color.White
-        btnViewOverdue.Location = New Point(513, 268)
-        btnViewOverdue.Margin = New Padding(4, 3, 4, 3)
+        btnViewOverdue.Location = New Point(513, 318)
         btnViewOverdue.Name = "btnViewOverdue"
         btnViewOverdue.Size = New Size(117, 32)
-        btnViewOverdue.TabIndex = 19
         btnViewOverdue.Text = "View Overdue"
-        btnViewOverdue.UseVisualStyleBackColor = False
-        ' 
-        ' DataGridView1
-        ' 
+
+        'DataGridView1
         DataGridView1.AllowUserToAddRows = False
         DataGridView1.AllowUserToDeleteRows = False
         DataGridView1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        DataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
         DataGridView1.Dock = DockStyle.Fill
         DataGridView1.Location = New Point(0, 0)
-        DataGridView1.Margin = New Padding(4, 3, 4, 3)
         DataGridView1.Name = "DataGridView1"
         DataGridView1.ReadOnly = True
         DataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        DataGridView1.Size = New Size(980, 205)
-        DataGridView1.TabIndex = 20
-        ' 
-        ' Panel1
-        ' 
+        DataGridView1.Size = New Size(980, 155)
+
+        'Panel1
         Panel1.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         Panel1.BackColor = Color.FromArgb(CByte(248), CByte(249), CByte(250))
         Panel1.BorderStyle = BorderStyle.FixedSingle
@@ -309,60 +252,46 @@ Partial Class frmIssuedEquipment
         Panel1.Controls.Add(lblOverdue)
         Panel1.Controls.Add(lblTotalIssued)
         Panel1.Location = New Point(0, 517)
-        Panel1.Margin = New Padding(4, 3, 4, 3)
         Panel1.Name = "Panel1"
         Panel1.Size = New Size(984, 44)
-        Panel1.TabIndex = 21
-        ' 
-        ' lblSelectedItem
-        ' 
+
+        'lblSelectedItem
         lblSelectedItem.AutoSize = True
-        lblSelectedItem.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblSelectedItem.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold)
         lblSelectedItem.Location = New Point(408, 12)
-        lblSelectedItem.Margin = New Padding(4, 0, 4, 0)
         lblSelectedItem.Name = "lblSelectedItem"
         lblSelectedItem.Size = New Size(114, 16)
-        lblSelectedItem.TabIndex = 2
         lblSelectedItem.Text = "Selected: None"
-        ' 
-        ' lblOverdue
-        ' 
+
+        'lblOverdue
         lblOverdue.AutoSize = True
-        lblOverdue.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblOverdue.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold)
         lblOverdue.ForeColor = Color.Green
         lblOverdue.Location = New Point(210, 12)
-        lblOverdue.Margin = New Padding(4, 0, 4, 0)
         lblOverdue.Name = "lblOverdue"
         lblOverdue.Size = New Size(82, 16)
-        lblOverdue.TabIndex = 1
         lblOverdue.Text = "Overdue: 0"
-        ' 
-        ' lblTotalIssued
-        ' 
+
+        'lblTotalIssued
         lblTotalIssued.AutoSize = True
-        lblTotalIssued.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblTotalIssued.Font = New Font("Microsoft Sans Serif", 9.75F, FontStyle.Bold)
         lblTotalIssued.Location = New Point(12, 12)
-        lblTotalIssued.Margin = New Padding(4, 0, 4, 0)
         lblTotalIssued.Name = "lblTotalIssued"
         lblTotalIssued.Size = New Size(109, 16)
-        lblTotalIssued.TabIndex = 0
         lblTotalIssued.Text = "Total Issued: 0"
-        ' 
-        ' Panel2
-        ' 
+
+        'Panel2
         Panel2.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
         Panel2.Controls.Add(DataGridView1)
-        Panel2.Location = New Point(0, 312)
-        Panel2.Margin = New Padding(4, 3, 4, 3)
+        Panel2.Location = New Point(0, 362)
         Panel2.Name = "Panel2"
-        Panel2.Size = New Size(984, 205)
-        Panel2.TabIndex = 22
-        ' 
-        ' frmIssuedEquipment
-        ' 
+        Panel2.Size = New Size(984, 155)
+
+        'frmIssuedEquipment
         AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(984, 561)
+        Controls.Add(btnBack)
         Controls.Add(Panel2)
         Controls.Add(Panel1)
         Controls.Add(btnViewOverdue)
@@ -386,7 +315,6 @@ Partial Class frmIssuedEquipment
         Controls.Add(cmbItemID)
         Controls.Add(Label1)
         FormBorderStyle = FormBorderStyle.Sizable
-        Margin = New Padding(4, 3, 4, 3)
         MaximizeBox = True
         MinimizeBox = True
         MinimumSize = New Size(1000, 600)
@@ -400,7 +328,6 @@ Partial Class frmIssuedEquipment
         Panel2.ResumeLayout(False)
         ResumeLayout(False)
         PerformLayout()
-
     End Sub
 
     Friend WithEvents Label1 As Label
@@ -429,4 +356,5 @@ Partial Class frmIssuedEquipment
     Friend WithEvents lblOverdue As Label
     Friend WithEvents lblTotalIssued As Label
     Friend WithEvents Panel2 As Panel
+    Friend WithEvents btnBack As Button
 End Class

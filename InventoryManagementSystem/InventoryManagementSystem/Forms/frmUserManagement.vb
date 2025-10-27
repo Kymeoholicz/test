@@ -25,8 +25,12 @@ Public Class frmUserManagement
         LoadRoles()
         LoadData()
         ClearFields()
+
+        ' Window settings
         Me.Text = "User Management - Admin Only"
-        Me.WindowState = FormWindowState.Maximized
+        Me.WindowState = FormWindowState.Normal
+        Me.StartPosition = FormStartPosition.CenterScreen
+        Me.Size = New Size(1000, 660)
     End Sub
 
     '==========================
@@ -39,7 +43,7 @@ Public Class frmUserManagement
         cmbUserRole.Items.Add("User")
         cmbUserRole.SelectedIndex = 2
 
-        ' Also load role filter
+        ' Load role filter
         cmbRoleFilter.Items.Clear()
         cmbRoleFilter.Items.Add("All Roles")
         cmbRoleFilter.Items.Add("Admin")
@@ -48,17 +52,30 @@ Public Class frmUserManagement
         cmbRoleFilter.SelectedIndex = 0
     End Sub
 
-    Private Sub LoadData()
+    Private Sub LoadData(Optional filterRole As String = "")
         Try
             If con.State = ConnectionState.Open Then con.Close()
             con.Open()
 
-            ' FIXED: Cast IsActive properly for display
-            da = New OleDbDataAdapter("SELECT UserID AS [ID], Username, FullName AS [Full Name], Email, UserRole AS [Role], IIF(IsActive, 'Yes', 'No') AS [Active], Format(DateCreated, 'yyyy-MM-dd') AS [Created] FROM tblUsers ORDER BY UserID DESC", con)
+            Dim sql As String = "SELECT UserID AS [ID], Username, FullName AS [Full Name], Email, UserRole AS [Role], IsActive AS [Active], Format(DateCreated, 'yyyy-MM-dd') AS [Created] FROM tblUsers"
+
+            ' Apply role filter if specified
+            If Not String.IsNullOrEmpty(filterRole) AndAlso filterRole <> "All Roles" Then
+                sql &= " WHERE UserRole = ?"
+            End If
+
+            sql &= " ORDER BY UserID DESC"
+
+            da = New OleDbDataAdapter(sql, con)
+            If Not String.IsNullOrEmpty(filterRole) AndAlso filterRole <> "All Roles" Then
+                da.SelectCommand.Parameters.AddWithValue("@1", filterRole)
+            End If
+
             dt = New DataTable
             da.Fill(dt)
             DataGridView1.DataSource = dt
 
+            ' Format DataGridView
             If DataGridView1.Columns.Count > 0 Then
                 DataGridView1.Columns(0).Width = 50
                 DataGridView1.Columns(1).Width = 120
@@ -69,30 +86,14 @@ Public Class frmUserManagement
                 DataGridView1.Columns(6).Width = 100
             End If
 
+            ' Update statistics
             lblTotalUsers.Text = "Total Users: " & dt.Rows.Count.ToString()
-
-            ' Calculate stats safely
-            Dim admins As Integer = 0
-            Dim managers As Integer = 0
-            Dim users As Integer = 0
-
-            For Each row As DataRow In dt.Rows
-                If Not IsDBNull(row("Role")) Then
-                    Dim role As String = row("Role").ToString()
-                    Select Case role.ToLower()
-                        Case "admin"
-                            admins += 1
-                        Case "manager"
-                            managers += 1
-                        Case "user"
-                            users += 1
-                    End Select
-                End If
-            Next
-
+            Dim admins = dt.AsEnumerable().Count(Function(r) r.Field(Of String)("Role") = "Admin")
+            Dim managers = dt.AsEnumerable().Count(Function(r) r.Field(Of String)("Role") = "Manager")
+            Dim users = dt.AsEnumerable().Count(Function(r) r.Field(Of String)("Role") = "User")
             lblUserStats.Text = $"Admins: {admins} | Managers: {managers} | Users: {users}"
         Catch ex As Exception
-            MessageBox.Show("Error loading data: " & ex.Message & vbCrLf & vbCrLf & ex.StackTrace, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error loading data: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
             If con.State = ConnectionState.Open Then con.Close()
         End Try
@@ -119,6 +120,7 @@ Public Class frmUserManagement
         txtConfirmPassword.Enabled = True
         lblPasswordNote.Text = "Password must be at least 6 characters"
         lblPasswordNote.ForeColor = Color.Gray
+        DataGridView1.ClearSelection()
     End Sub
 
     '==========================
@@ -133,23 +135,59 @@ Public Class frmUserManagement
     End Function
 
     '==========================
+    ' VALIDATION
+    '==========================
+    Private Function ValidateInput(isUpdate As Boolean) As Boolean
+        ' Username validation (only for new users)
+        If Not isUpdate AndAlso String.IsNullOrWhiteSpace(txtUsername.Text) Then
+            MessageBox.Show("Please enter a username.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            txtUsername.Focus()
+            Return False
+        End If
+
+        ' Full name validation
+        If String.IsNullOrWhiteSpace(txtFullName.Text) Then
+            MessageBox.Show("Please enter full name.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            txtFullName.Focus()
+            Return False
+        End If
+
+        ' Email validation (basic)
+        If Not String.IsNullOrWhiteSpace(txtEmail.Text) AndAlso Not txtEmail.Text.Contains("@") Then
+            MessageBox.Show("Please enter a valid email address.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            txtEmail.Focus()
+            Return False
+        End If
+
+        ' Password validation (only for new users)
+        If Not isUpdate Then
+            If String.IsNullOrWhiteSpace(txtPassword.Text) Then
+                MessageBox.Show("Please enter a password.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                txtPassword.Focus()
+                Return False
+            End If
+
+            If txtPassword.Text.Length < 6 Then
+                MessageBox.Show("Password must be at least 6 characters long.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                txtPassword.Focus()
+                Return False
+            End If
+
+            If txtPassword.Text <> txtConfirmPassword.Text Then
+                MessageBox.Show("Passwords do not match.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                txtConfirmPassword.Focus()
+                Return False
+            End If
+        End If
+
+        Return True
+    End Function
+
+    '==========================
     ' ADD USER
     '==========================
     Private Sub btnAdd_Click(sender As Object, e As EventArgs) Handles btnAdd.Click
-        If txtUsername.Text.Trim() = "" OrElse txtFullName.Text.Trim() = "" OrElse txtPassword.Text.Trim() = "" Then
-            MessageBox.Show("Please fill in all required fields.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End If
-
-        If txtPassword.Text <> txtConfirmPassword.Text Then
-            MessageBox.Show("Passwords do not match.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Return
-        End If
-
-        If txtPassword.TextLength < 6 Then
-            MessageBox.Show("Password must be at least 6 characters long.", "Invalid Password", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End If
+        If Not ValidateInput(False) Then Return
 
         Try
             If con.State = ConnectionState.Open Then con.Close()
@@ -160,19 +198,21 @@ Public Class frmUserManagement
             cmd.Parameters.AddWithValue("@1", txtUsername.Text.Trim())
             Dim count As Integer = Convert.ToInt32(cmd.ExecuteScalar())
             If count > 0 Then
-                MessageBox.Show("Username already exists.", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                MessageBox.Show("Username already exists. Please choose a different username.", "Duplicate Username", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                txtUsername.Focus()
                 Return
             End If
 
-            ' FIXED: Removed CreatedBy field (may not exist or cause type mismatch)
-            cmd = New OleDbCommand("INSERT INTO tblUsers (Username, FullName, Email, [UserPassword], UserRole, IsActive, DateCreated) VALUES (?,?,?,?,?,?,?)", con)
-            cmd.Parameters.Add("@1", OleDbType.VarWChar, 50).Value = txtUsername.Text.Trim()
-            cmd.Parameters.Add("@2", OleDbType.VarWChar, 100).Value = txtFullName.Text.Trim()
-            cmd.Parameters.Add("@3", OleDbType.VarWChar, 100).Value = If(String.IsNullOrWhiteSpace(txtEmail.Text), "", txtEmail.Text.Trim())
-            cmd.Parameters.Add("@4", OleDbType.VarWChar, 255).Value = HashPassword(txtPassword.Text.Trim())
-            cmd.Parameters.Add("@5", OleDbType.VarWChar, 20).Value = cmbUserRole.Text
-            cmd.Parameters.Add("@6", OleDbType.Boolean).Value = chkIsActive.Checked
-            cmd.Parameters.Add("@7", OleDbType.Date).Value = Date.Now
+            ' Insert new user
+            cmd = New OleDbCommand("INSERT INTO tblUsers (Username, FullName, Email, [UserPassword], UserRole, IsActive, DateCreated, CreatedBy) VALUES (?,?,?,?,?,?,?,?)", con)
+            cmd.Parameters.AddWithValue("@1", txtUsername.Text.Trim())
+            cmd.Parameters.AddWithValue("@2", txtFullName.Text.Trim())
+            cmd.Parameters.AddWithValue("@3", If(String.IsNullOrWhiteSpace(txtEmail.Text), "", txtEmail.Text.Trim()))
+            cmd.Parameters.AddWithValue("@4", HashPassword(txtPassword.Text.Trim()))
+            cmd.Parameters.AddWithValue("@5", cmbUserRole.Text)
+            cmd.Parameters.AddWithValue("@6", chkIsActive.Checked)
+            cmd.Parameters.AddWithValue("@7", Date.Now)
+            cmd.Parameters.AddWithValue("@8", CurrentUser.UserID)
             cmd.ExecuteNonQuery()
 
             LogActivity("Add User", "Added user: " & txtUsername.Text)
@@ -181,7 +221,7 @@ Public Class frmUserManagement
             LoadData()
             ClearFields()
         Catch ex As Exception
-            MessageBox.Show("Error adding user: " & ex.Message & vbCrLf & vbCrLf & "Details: " & ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error adding user: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
             If con.State = ConnectionState.Open Then con.Close()
         End Try
@@ -192,7 +232,15 @@ Public Class frmUserManagement
     '==========================
     Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
         If selectedUserID = 0 Then
-            MessageBox.Show("Select a user to update.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBox.Show("Please select a user to update.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
+        If Not ValidateInput(True) Then Return
+
+        ' Prevent updating own account to inactive
+        If selectedUserID = CurrentUser.UserID AndAlso Not chkIsActive.Checked Then
+            MessageBox.Show("You cannot deactivate your own account.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
 
@@ -201,13 +249,13 @@ Public Class frmUserManagement
             con.Open()
             cmd = New OleDbCommand("UPDATE tblUsers SET FullName=?, Email=?, UserRole=?, IsActive=? WHERE UserID=?", con)
             cmd.Parameters.AddWithValue("@1", txtFullName.Text.Trim())
-            cmd.Parameters.AddWithValue("@2", txtEmail.Text.Trim())
+            cmd.Parameters.AddWithValue("@2", If(String.IsNullOrWhiteSpace(txtEmail.Text), "", txtEmail.Text.Trim()))
             cmd.Parameters.AddWithValue("@3", cmbUserRole.Text)
             cmd.Parameters.AddWithValue("@4", chkIsActive.Checked)
             cmd.Parameters.AddWithValue("@5", selectedUserID)
             cmd.ExecuteNonQuery()
 
-            LogActivity("Update User", "Updated user: " & txtUsername.Text)
+            LogActivity("Update User", "Updated user: " & txtUsername.Text & " (ID: " & selectedUserID & ")")
             MessageBox.Show("User updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             LoadData()
@@ -224,16 +272,17 @@ Public Class frmUserManagement
     '==========================
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         If selectedUserID = 0 Then
-            MessageBox.Show("Select a user to delete.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBox.Show("Please select a user to delete.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
 
+        ' Prevent deleting own account
         If selectedUserID = CurrentUser.UserID Then
-            MessageBox.Show("You cannot delete your own account!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            MessageBox.Show("You cannot delete your own account.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
 
-        Dim confirm = MessageBox.Show("Are you sure you want to delete user: " & txtUsername.Text & "?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+        Dim confirm = MessageBox.Show("Are you sure you want to delete user: " & txtUsername.Text & "?" & vbCrLf & vbCrLf & "This action cannot be undone!", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
         If confirm = DialogResult.No Then Return
 
         Try
@@ -243,7 +292,7 @@ Public Class frmUserManagement
             cmd.Parameters.AddWithValue("@1", selectedUserID)
             cmd.ExecuteNonQuery()
 
-            LogActivity("Delete User", "Deleted user: " & txtUsername.Text)
+            LogActivity("Delete User", "Deleted user: " & txtUsername.Text & " (ID: " & selectedUserID & ")")
             MessageBox.Show("User deleted successfully!", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
             LoadData()
@@ -259,31 +308,21 @@ Public Class frmUserManagement
     ' RESET PASSWORD
     '==========================
     Private Sub btnResetPassword_Click(sender As Object, e As EventArgs) Handles btnResetPassword.Click
-        If selectedUserID > 0 Then
-            Dim resetForm As frmResetPassword = Nothing
-            Try
-                resetForm = New frmResetPassword(selectedUserID, txtUsername.Text)
-                Dim result As DialogResult = resetForm.ShowDialog()
-
-                If result = DialogResult.OK Then
-                    LogActivity("Reset Password", "Reset password for user: " & txtUsername.Text)
-                    MessageBox.Show("Password reset successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-                End If
-            Catch ex As Exception
-                MessageBox.Show("Error opening reset password form: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Finally
-                ' Always dispose the form
-                If resetForm IsNot Nothing Then
-                    Try
-                        resetForm.Dispose()
-                    Catch
-                    End Try
-                    resetForm = Nothing
-                End If
-            End Try
-        Else
-            MessageBox.Show("Please select a user first.", "No User Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        If selectedUserID = 0 Then
+            MessageBox.Show("Please select a user to reset password.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
         End If
+
+        Try
+            Dim resetForm As New frmResetPassword(selectedUserID, txtUsername.Text)
+            If resetForm.ShowDialog() = DialogResult.OK Then
+                LogActivity("Reset Password", "Reset password for user: " & txtUsername.Text & " (ID: " & selectedUserID & ")")
+                MessageBox.Show("Password reset successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                ClearFields()
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Error opening password reset form: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     '==========================
@@ -292,7 +331,7 @@ Public Class frmUserManagement
     Private Sub btnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
         Dim searchTerm As String = txtSearch.Text.Trim()
 
-        If searchTerm = "" Then
+        If String.IsNullOrWhiteSpace(searchTerm) Then
             LoadData()
             Return
         End If
@@ -301,19 +340,23 @@ Public Class frmUserManagement
             If con.State = ConnectionState.Open Then con.Close()
             con.Open()
 
-            Dim query As String = "SELECT UserID AS [ID], Username, FullName AS [Full Name], Email, UserRole AS [Role], IsActive AS [Active], Format(DateCreated, 'yyyy-MM-dd') AS [Created] FROM tblUsers WHERE Username LIKE ? OR FullName LIKE ? OR Email LIKE ? ORDER BY UserID DESC"
+            Dim sql As String = "SELECT UserID AS [ID], Username, FullName AS [Full Name], Email, UserRole AS [Role], IsActive AS [Active], Format(DateCreated, 'yyyy-MM-dd') AS [Created] FROM tblUsers WHERE Username LIKE ? OR FullName LIKE ? OR Email LIKE ? ORDER BY UserID DESC"
 
-            da = New OleDbDataAdapter(query, con)
-            Dim searchPattern As String = "%" & searchTerm & "%"
-            da.SelectCommand.Parameters.AddWithValue("@1", searchPattern)
-            da.SelectCommand.Parameters.AddWithValue("@2", searchPattern)
-            da.SelectCommand.Parameters.AddWithValue("@3", searchPattern)
+            da = New OleDbDataAdapter(sql, con)
+            Dim likeParam As String = "%" & searchTerm & "%"
+            da.SelectCommand.Parameters.AddWithValue("@1", likeParam)
+            da.SelectCommand.Parameters.AddWithValue("@2", likeParam)
+            da.SelectCommand.Parameters.AddWithValue("@3", likeParam)
 
-            dt = New DataTable()
+            dt = New DataTable
             da.Fill(dt)
             DataGridView1.DataSource = dt
 
             lblTotalUsers.Text = "Search Results: " & dt.Rows.Count.ToString()
+
+            If dt.Rows.Count = 0 Then
+                MessageBox.Show("No users found matching your search criteria.", "No Results", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
         Catch ex As Exception
             MessageBox.Show("Error searching: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
@@ -322,11 +365,23 @@ Public Class frmUserManagement
     End Sub
 
     '==========================
+    ' ROLE FILTER
+    '==========================
+    Private Sub cmbRoleFilter_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbRoleFilter.SelectedIndexChanged
+        If cmbRoleFilter.SelectedIndex = 0 Then
+            LoadData() ' All Roles
+        Else
+            LoadData(cmbRoleFilter.Text) ' Specific role
+        End If
+    End Sub
+
+    '==========================
     ' REFRESH
     '==========================
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
         Try
             txtSearch.Clear()
+            If cmbRoleFilter.Items.Count > 0 Then cmbRoleFilter.SelectedIndex = 0
             LoadData()
             ClearFields()
             MessageBox.Show("User list refreshed successfully.", "Refreshed", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -341,36 +396,32 @@ Public Class frmUserManagement
     Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
         If e.RowIndex >= 0 Then
             Try
-                selectedUserID = Convert.ToInt32(DataGridView1.Rows(e.RowIndex).Cells("ID").Value)
-                txtUsername.Text = DataGridView1.Rows(e.RowIndex).Cells("Username").Value.ToString()
-                txtFullName.Text = DataGridView1.Rows(e.RowIndex).Cells("Full Name").Value.ToString()
-                txtEmail.Text = If(IsDBNull(DataGridView1.Rows(e.RowIndex).Cells("Email").Value), "", DataGridView1.Rows(e.RowIndex).Cells("Email").Value.ToString())
-                cmbUserRole.Text = DataGridView1.Rows(e.RowIndex).Cells("Role").Value.ToString()
+                Dim row As DataGridViewRow = DataGridView1.Rows(e.RowIndex)
 
-                ' FIXED: Handle Active field which is now "Yes"/"No" string
-                Dim activeValue As Object = DataGridView1.Rows(e.RowIndex).Cells("Active").Value
-                If Not IsDBNull(activeValue) Then
-                    Dim activeStr As String = activeValue.ToString().ToLower()
-                    chkIsActive.Checked = (activeStr = "yes" Or activeStr = "true" Or activeStr = "1")
-                Else
-                    chkIsActive.Checked = True
-                End If
+                selectedUserID = Convert.ToInt32(row.Cells("ID").Value)
+                txtUsername.Text = row.Cells("Username").Value.ToString()
+                txtFullName.Text = row.Cells("Full Name").Value.ToString()
+                txtEmail.Text = If(row.Cells("Email").Value IsNot DBNull.Value, row.Cells("Email").Value.ToString(), "")
+                cmbUserRole.Text = row.Cells("Role").Value.ToString()
+                chkIsActive.Checked = Convert.ToBoolean(row.Cells("Active").Value)
 
+                ' Disable username and password fields when editing
                 txtUsername.Enabled = False
                 txtPassword.Enabled = False
                 txtConfirmPassword.Enabled = False
                 txtPassword.Clear()
                 txtConfirmPassword.Clear()
 
+                ' Enable/disable buttons
                 btnAdd.Enabled = False
                 btnUpdate.Enabled = True
                 btnDelete.Enabled = True
                 btnResetPassword.Enabled = True
 
-                lblPasswordNote.Text = "To change password, use 'Reset Password' button"
+                lblPasswordNote.Text = "Use 'Reset Password' button to change password"
                 lblPasswordNote.ForeColor = Color.Blue
             Catch ex As Exception
-                MessageBox.Show("Error selecting user: " & ex.Message & vbCrLf & vbCrLf & ex.StackTrace, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Error selecting user: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End Try
         End If
     End Sub
@@ -389,48 +440,20 @@ Public Class frmUserManagement
             cmd.Parameters.AddWithValue("@4", Date.Now)
             cmd.ExecuteNonQuery()
         Catch ex As Exception
-            ' Optional: handle logging errors
+            ' Silently fail - don't interrupt user operations for logging errors
+            Debug.WriteLine("Error logging activity: " & ex.Message)
         Finally
             If con.State = ConnectionState.Open Then con.Close()
         End Try
     End Sub
 
     '==========================
-    ' FORM CLOSING
+    ' ENTER KEY SUPPORT
     '==========================
-    Private Sub frmUserManagement_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
-        Try
-            ' Close any open connections
-            If con IsNot Nothing AndAlso con.State = ConnectionState.Open Then
-                con.Close()
-            End If
-
-            ' Clear DataGridView binding
-            If DataGridView1 IsNot Nothing Then
-                DataGridView1.DataSource = Nothing
-            End If
-
-            ' Dispose DataTable
-            If dt IsNot Nothing Then
-                dt.Dispose()
-                dt = Nothing
-            End If
-
-        Catch ex As Exception
-            Debug.WriteLine("UserManagement FormClosing error: " & ex.Message)
-        End Try
-    End Sub
-
-    Private Sub frmUserManagement_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
-        Try
-            ' Dispose connection
-            If con IsNot Nothing Then
-                con.Dispose()
-                con = Nothing
-            End If
-
-            GC.SuppressFinalize(Me)
-        Catch
-        End Try
+    Private Sub txtSearch_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtSearch.KeyPress
+        If e.KeyChar = ChrW(Keys.Enter) Then
+            e.Handled = True
+            btnSearch_Click(Nothing, Nothing)
+        End If
     End Sub
 End Class

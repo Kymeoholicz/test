@@ -4,13 +4,21 @@
     Private Sub btnManageInventory_Click(sender As Object, e As EventArgs) Handles btnManageInventory.Click
         If isExiting Then Return
 
+        Dim inventoryForm As frmInventory = Nothing
         Try
-            Dim inventoryForm As New frmInventory()
+            inventoryForm = New frmInventory()
             inventoryForm.ShowDialog()
-            inventoryForm.Dispose()
         Catch ex As Exception
             If Not isExiting Then
                 MessageBox.Show("Error opening Inventory form: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        Finally
+            If inventoryForm IsNot Nothing Then
+                Try
+                    inventoryForm.Dispose()
+                Catch
+                End Try
+                inventoryForm = Nothing
             End If
         End Try
     End Sub
@@ -18,13 +26,21 @@
     Private Sub btnIssuedEquipment_Click(sender As Object, e As EventArgs) Handles btnIssuedEquipment.Click
         If isExiting Then Return
 
+        Dim issuedForm As frmIssuedEquipment = Nothing
         Try
-            Dim issuedForm As New frmIssuedEquipment()
+            issuedForm = New frmIssuedEquipment()
             issuedForm.ShowDialog()
-            issuedForm.Dispose()
         Catch ex As Exception
             If Not isExiting Then
                 MessageBox.Show("Error opening Issued Equipment form: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        Finally
+            If issuedForm IsNot Nothing Then
+                Try
+                    issuedForm.Dispose()
+                Catch
+                End Try
+                issuedForm = Nothing
             End If
         End Try
     End Sub
@@ -32,13 +48,21 @@
     Private Sub btnReports_Click(sender As Object, e As EventArgs) Handles btnReports.Click
         If isExiting Then Return
 
+        Dim reportForm As frmReports = Nothing
         Try
-            Dim reportForm As New frmReports()
+            reportForm = New frmReports()
             reportForm.ShowDialog()
-            reportForm.Dispose()
         Catch ex As Exception
             If Not isExiting Then
                 MessageBox.Show("Error opening Reports form: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
+        Finally
+            If reportForm IsNot Nothing Then
+                Try
+                    reportForm.Dispose()
+                Catch
+                End Try
+                reportForm = Nothing
             End If
         End Try
     End Sub
@@ -47,13 +71,21 @@
         If isExiting Then Return
 
         If CurrentUser.IsAdmin() Then
+            Dim userForm As frmUserManagement = Nothing
             Try
-                Dim userForm As New frmUserManagement()
+                userForm = New frmUserManagement()
                 userForm.ShowDialog()
-                userForm.Dispose()
             Catch ex As Exception
                 If Not isExiting Then
                     MessageBox.Show("Error opening User Management form: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
+            Finally
+                If userForm IsNot Nothing Then
+                    Try
+                        userForm.Dispose()
+                    Catch
+                    End Try
+                    userForm = Nothing
                 End If
             End Try
         Else
@@ -65,13 +97,21 @@
         If isExiting Then Return
 
         If CurrentUser.IsAdmin() OrElse CurrentUser.IsManager() Then
+            Dim activityForm As frmActivityLog = Nothing
             Try
-                Dim activityForm As New frmActivityLog()
+                activityForm = New frmActivityLog()
                 activityForm.ShowDialog()
-                activityForm.Dispose()
             Catch ex As Exception
                 If Not isExiting Then
                     MessageBox.Show("Error opening Activity Log form: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End If
+            Finally
+                If activityForm IsNot Nothing Then
+                    Try
+                        activityForm.Dispose()
+                    Catch
+                    End Try
+                    activityForm = Nothing
                 End If
             End Try
         Else

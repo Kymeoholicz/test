@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kang\\source\\repos\\Kymeoholicz\\test\\InventoryManagementSystem\\InventoryManagementSystem\\InventoryManagementSystem.vbproj": {}
+    "C:\\Users\\Admin\\source\\repos\\Kymeoholicz\\test\\InventoryManagementSystem\\InventoryManagementSystem\\InventoryManagementSystem.vbproj": {}
   },
   "projects": {
-    "C:\\Users\\kang\\source\\repos\\Kymeoholicz\\test\\InventoryManagementSystem\\InventoryManagementSystem\\InventoryManagementSystem.vbproj": {
+    "C:\\Users\\Admin\\source\\repos\\Kymeoholicz\\test\\InventoryManagementSystem\\InventoryManagementSystem\\InventoryManagementSystem.vbproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kang\\source\\repos\\Kymeoholicz\\test\\InventoryManagementSystem\\InventoryManagementSystem\\InventoryManagementSystem.vbproj",
+        "projectUniqueName": "C:\\Users\\Admin\\source\\repos\\Kymeoholicz\\test\\InventoryManagementSystem\\InventoryManagementSystem\\InventoryManagementSystem.vbproj",
         "projectName": "InventoryManagementSystem",
-        "projectPath": "C:\\Users\\kang\\source\\repos\\Kymeoholicz\\test\\InventoryManagementSystem\\InventoryManagementSystem\\InventoryManagementSystem.vbproj",
-        "packagesPath": "C:\\Users\\kang\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kang\\source\\repos\\Kymeoholicz\\test\\InventoryManagementSystem\\InventoryManagementSystem\\obj\\",
+        "projectPath": "C:\\Users\\Admin\\source\\repos\\Kymeoholicz\\test\\InventoryManagementSystem\\InventoryManagementSystem\\InventoryManagementSystem.vbproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Admin\\source\\repos\\Kymeoholicz\\test\\InventoryManagementSystem\\InventoryManagementSystem\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\kang\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -45,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0-windows7.0": {
@@ -75,7 +75,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

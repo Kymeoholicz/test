@@ -7,23 +7,13 @@ Public Class frmIssuedEquipment
     Private da As OleDbDataAdapter
     Private dt As DataTable
     Private selectedIssueID As Integer = 0
+    Private isClosing As Boolean = False
 
     ' ===== Form Load =====
     Private Sub frmIssuedEquipment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Me.Text = "Issued Equipment Management"
         Me.WindowState = FormWindowState.Maximized
         con = DatabaseConfig.GetConnection()
-
-        ' === MANUAL EVENT WIRING ===
-        AddHandler btnIssue.Click, AddressOf btnIssue_Click
-        AddHandler btnReturn.Click, AddressOf btnReturn_Click
-        AddHandler btnClear.Click, AddressOf btnClear_Click
-        AddHandler btnRefresh.Click, AddressOf btnRefresh_Click
-        AddHandler btnSearch.Click, AddressOf btnSearch_Click
-        AddHandler btnViewAll.Click, AddressOf btnViewAll_Click
-        AddHandler btnViewOverdue.Click, AddressOf btnViewOverdue_Click
-        AddHandler cmbItemID.SelectedIndexChanged, AddressOf cmbItemID_SelectedIndexChanged
-        AddHandler DataGridView1.CellClick, AddressOf DataGridView1_CellClick
 
         LoadIssuedData()
         LoadItemsComboBox()
@@ -35,6 +25,8 @@ Public Class frmIssuedEquipment
 
     ' ===== Load Items for ComboBox =====
     Private Sub LoadItemsComboBox()
+        If isClosing Then Return
+
         Try
             If con.State = ConnectionState.Open Then con.Close()
             con.Open()
@@ -48,10 +40,16 @@ Public Class frmIssuedEquipment
             cmbItemID.DisplayMember = "DisplayName"
             cmbItemID.ValueMember = "ItemID"
 
-            If dt.Rows.Count > 0 Then cmbItemID.SelectedIndex = 0 Else MessageBox.Show("No available stock!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            If dt.Rows.Count > 0 Then
+                cmbItemID.SelectedIndex = 0
+            Else
+                MessageBox.Show("No available stock!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
 
         Catch ex As Exception
-            MessageBox.Show("Error loading items: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If Not isClosing Then
+                MessageBox.Show("Error loading items: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         Finally
             If con.State = ConnectionState.Open Then con.Close()
         End Try
@@ -59,6 +57,8 @@ Public Class frmIssuedEquipment
 
     ' ===== Load Issued Equipment Data =====
     Private Sub LoadIssuedData()
+        If isClosing Then Return
+
         Try
             If con.State = ConnectionState.Open Then con.Close()
             con.Open()
@@ -75,7 +75,9 @@ Public Class frmIssuedEquipment
             UpdateStats()
 
         Catch ex As Exception
-            MessageBox.Show("Error loading issued data: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If Not isClosing Then
+                MessageBox.Show("Error loading issued data: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         Finally
             If con.State = ConnectionState.Open Then con.Close()
         End Try
@@ -85,7 +87,7 @@ Public Class frmIssuedEquipment
     Private Sub FormatDataGrid()
         With DataGridView1
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            .AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
             .MultiSelect = False
             .ReadOnly = True
             .AllowUserToAddRows = False
@@ -94,6 +96,10 @@ Public Class frmIssuedEquipment
             .AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray
             .DefaultCellStyle.SelectionBackColor = Color.DarkBlue
             .DefaultCellStyle.SelectionForeColor = Color.White
+            .ColumnHeadersDefaultCellStyle.Font = New Font("Segoe UI", 10, FontStyle.Bold)
+            .DefaultCellStyle.Font = New Font("Segoe UI", 10)
+            .DefaultCellStyle.WrapMode = DataGridViewTriState.True
+            .SelectionMode = DataGridViewSelectionMode.FullRowSelect
 
             If .Columns.Count > 0 Then
                 .Columns(0).Width = 50
@@ -106,6 +112,7 @@ Public Class frmIssuedEquipment
             End If
         End With
     End Sub
+
 
     ' ===== Update Stats =====
     Private Sub UpdateStats()
@@ -138,6 +145,8 @@ Public Class frmIssuedEquipment
 
     ' ===== Get Available Quantity =====
     Private Function GetAvailableQuantity(itemID As Integer) As Integer
+        If isClosing Then Return 0
+
         Try
             If con.State = ConnectionState.Open Then con.Close()
             con.Open()
@@ -146,7 +155,9 @@ Public Class frmIssuedEquipment
             Dim result = cmd.ExecuteScalar()
             If result IsNot Nothing Then Return CInt(result)
         Catch ex As Exception
-            MessageBox.Show("Error getting quantity: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If Not isClosing Then
+                MessageBox.Show("Error getting quantity: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         Finally
             If con.State = ConnectionState.Open Then con.Close()
         End Try
@@ -166,12 +177,14 @@ Public Class frmIssuedEquipment
         End Try
     End Sub
 
-    Private Sub cmbItemID_SelectedIndexChanged(sender As Object, e As EventArgs)
+    Private Sub cmbItemID_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbItemID.SelectedIndexChanged
         UpdateAvailableQuantity()
     End Sub
 
-    ' ===== Issue Item ===== (NO HANDLES CLAUSE)
-    Private Sub btnIssue_Click(sender As Object, e As EventArgs)
+    ' ===== Issue Item =====
+    Private Sub btnIssue_Click(sender As Object, e As EventArgs) Handles btnIssue.Click
+        If isClosing Then Return
+
         If cmbItemID.SelectedIndex = -1 Or String.IsNullOrWhiteSpace(txtIssuedTo.Text) Then
             MessageBox.Show("Select item and enter recipient.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
@@ -181,6 +194,7 @@ Public Class frmIssuedEquipment
         Dim issuedTo As String = txtIssuedTo.Text.Trim()
         Dim remarks As String = txtRemarks.Text.Trim()
         Dim availableQty As Integer = GetAvailableQuantity(itemID)
+
         If availableQty <= 0 Then
             MessageBox.Show("No available stock.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return
@@ -189,6 +203,8 @@ Public Class frmIssuedEquipment
         Try
             If con.State = ConnectionState.Open Then con.Close()
             con.Open()
+
+            ' Insert issue
             Using cmd = New OleDbCommand("INSERT INTO tblIssuedEquipment (ItemID, IssuedTo, DateIssued, ReturnDate, Remarks) VALUES (?,?,?,?,?)", con)
                 cmd.Parameters.Add("@ItemID", OleDbType.Integer).Value = itemID
                 cmd.Parameters.Add("@IssuedTo", OleDbType.VarWChar, 100).Value = issuedTo
@@ -198,6 +214,7 @@ Public Class frmIssuedEquipment
                 cmd.ExecuteNonQuery()
             End Using
 
+            ' Update inventory
             Using cmd = New OleDbCommand("UPDATE tblInventory SET Quantity = Quantity - 1 WHERE ItemID=?", con)
                 cmd.Parameters.Add("@ItemID", OleDbType.Integer).Value = itemID
                 cmd.ExecuteNonQuery()
@@ -208,14 +225,18 @@ Public Class frmIssuedEquipment
             LoadIssuedData()
             ClearFields()
         Catch ex As Exception
-            MessageBox.Show("Error issuing item: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If Not isClosing Then
+                MessageBox.Show("Error issuing item: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         Finally
             If con.State = ConnectionState.Open Then con.Close()
         End Try
     End Sub
 
-    ' ===== Return Item ===== (NO HANDLES CLAUSE)
-    Private Sub btnReturn_Click(sender As Object, e As EventArgs)
+    ' ===== Return Item =====
+    Private Sub btnReturn_Click(sender As Object, e As EventArgs) Handles btnReturn.Click
+        If isClosing Then Return
+
         If selectedIssueID <= 0 Then
             MessageBox.Show("Select an issued item to return.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
             Return
@@ -227,16 +248,20 @@ Public Class frmIssuedEquipment
             If con.State = ConnectionState.Open Then con.Close()
             con.Open()
 
+            ' Start transaction
             Dim transaction = con.BeginTransaction()
             Try
+                ' Get ItemID
                 cmd = New OleDbCommand("SELECT ItemID FROM tblIssuedEquipment WHERE IssueID=?", con, transaction)
                 cmd.Parameters.Add("@IssueID", OleDbType.Integer).Value = selectedIssueID
                 Dim itemID As Integer = CInt(cmd.ExecuteScalar())
 
+                ' Delete issued record
                 cmd = New OleDbCommand("DELETE FROM tblIssuedEquipment WHERE IssueID=?", con, transaction)
                 cmd.Parameters.Add("@IssueID", OleDbType.Integer).Value = selectedIssueID
                 cmd.ExecuteNonQuery()
 
+                ' Increment inventory
                 cmd = New OleDbCommand("UPDATE tblInventory SET Quantity = Quantity + 1 WHERE ItemID=?", con, transaction)
                 cmd.Parameters.Add("@ItemID", OleDbType.Integer).Value = itemID
                 cmd.ExecuteNonQuery()
@@ -253,15 +278,18 @@ Public Class frmIssuedEquipment
                 Throw
             End Try
         Catch ex As Exception
-            MessageBox.Show("Error returning item: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            If Not isClosing Then
+                MessageBox.Show("Error returning item: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End If
         Finally
             If con.State = ConnectionState.Open Then con.Close()
         End Try
     End Sub
 
-    ' ===== DataGridView Selection ===== (NO HANDLES CLAUSE)
-    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs)
-        If e.RowIndex < 0 Then Return
+    ' ===== DataGridView Selection =====
+    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+        If e.RowIndex < 0 OrElse isClosing Then Return
+
         Dim row As DataGridViewRow = DataGridView1.Rows(e.RowIndex)
         selectedIssueID = If(row.Cells(0).Value IsNot Nothing, CInt(row.Cells(0).Value), 0)
         lblSelectedItem.Text = "Selected: " & If(row.Cells(1).Value IsNot Nothing, row.Cells(1).Value.ToString(), "") &
@@ -270,94 +298,45 @@ Public Class frmIssuedEquipment
         btnReturn.Enabled = True
     End Sub
 
-    ' ===== Clear Selection ===== (NO HANDLES CLAUSE)
-    Private Sub btnClear_Click(sender As Object, e As EventArgs)
+    ' ===== Clear Selection =====
+    Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
         ClearFields()
         DataGridView1.ClearSelection()
         lblSelectedItem.Text = "Selected: None"
     End Sub
 
-    ' ===== Refresh Data ===== (NO HANDLES CLAUSE)
-    Private Sub btnRefresh_Click(sender As Object, e As EventArgs)
+    ' ===== Refresh Data =====
+    Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
         LoadItemsComboBox()
         LoadIssuedData()
         ClearFields()
     End Sub
 
-    ' ===== Search ===== (NO HANDLES CLAUSE)
-    Private Sub btnSearch_Click(sender As Object, e As EventArgs)
-        Dim searchTerm As String = txtSearch.Text.Trim()
-        If String.IsNullOrWhiteSpace(searchTerm) Then
-            LoadIssuedData()
-            Return
+    ' ===== Back to Main Menu =====
+    Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
+        If MessageBox.Show("Return to Main Menu?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
+            Me.DialogResult = DialogResult.OK
+            Me.Close()
         End If
-
-        Try
-            If con.State = ConnectionState.Open Then con.Close()
-            con.Open()
-
-            Dim query As String = "SELECT ie.IssueID AS [ID], i.ItemName AS [Item Name], i.Category, ie.IssuedTo AS [Issued To], " &
-                                  "Format(ie.DateIssued,'yyyy-MM-dd') AS [Date Issued], Format(ie.ReturnDate,'yyyy-MM-dd') AS [Expected Return], ie.Remarks " &
-                                  "FROM tblIssuedEquipment ie INNER JOIN tblInventory i ON ie.ItemID=i.ItemID " &
-                                  "WHERE i.ItemName LIKE ? OR ie.IssuedTo LIKE ? OR i.Category LIKE ? " &
-                                  "ORDER BY ie.IssueID DESC"
-
-            da = New OleDbDataAdapter(query, con)
-            Dim likeTerm As String = "%" & searchTerm & "%"
-            da.SelectCommand.Parameters.AddWithValue("@1", likeTerm)
-            da.SelectCommand.Parameters.AddWithValue("@2", likeTerm)
-            da.SelectCommand.Parameters.AddWithValue("@3", likeTerm)
-
-            dt = New DataTable()
-            da.Fill(dt)
-            DataGridView1.DataSource = dt
-
-            FormatDataGrid()
-            UpdateStats()
-
-        Catch ex As Exception
-            MessageBox.Show("Error searching: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Finally
-            If con.State = ConnectionState.Open Then con.Close()
-        End Try
     End Sub
 
-    ' ===== View All ===== (NO HANDLES CLAUSE)
-    Private Sub btnViewAll_Click(sender As Object, e As EventArgs)
-        txtSearch.Clear()
-        LoadIssuedData()
-    End Sub
-
-    ' ===== View Overdue ===== (NO HANDLES CLAUSE)
-    Private Sub btnViewOverdue_Click(sender As Object, e As EventArgs)
+    ' ===== Form Closing Cleanup =====
+    Private Sub frmIssuedEquipment_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         Try
-            If con.State = ConnectionState.Open Then con.Close()
-            con.Open()
+            isClosing = True
 
-            Dim query As String = "SELECT ie.IssueID AS [ID], i.ItemName AS [Item Name], i.Category, ie.IssuedTo AS [Issued To], " &
-                                  "Format(ie.DateIssued,'yyyy-MM-dd') AS [Date Issued], Format(ie.ReturnDate,'yyyy-MM-dd') AS [Expected Return], ie.Remarks " &
-                                  "FROM tblIssuedEquipment ie INNER JOIN tblInventory i ON ie.ItemID=i.ItemID " &
-                                  "WHERE ie.ReturnDate < ? " &
-                                  "ORDER BY ie.ReturnDate ASC"
+            ' Simple cleanup
+            If DataGridView1 IsNot Nothing AndAlso Not DataGridView1.IsDisposed Then
+                DataGridView1.DataSource = Nothing
+            End If
 
-            da = New OleDbDataAdapter(query, con)
-            da.SelectCommand.Parameters.AddWithValue("@1", Date.Now)
-
-            dt = New DataTable()
-            da.Fill(dt)
-            DataGridView1.DataSource = dt
-
-            FormatDataGrid()
-            UpdateStats()
-
-            If dt.Rows.Count = 0 Then
-                MessageBox.Show("No overdue items found!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            If dt IsNot Nothing Then
+                dt.Dispose()
+                dt = Nothing
             End If
 
         Catch ex As Exception
-            MessageBox.Show("Error loading overdue items: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        Finally
-            If con.State = ConnectionState.Open Then con.Close()
+            Debug.WriteLine("FormClosing error: " & ex.Message)
         End Try
     End Sub
 End Class
