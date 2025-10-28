@@ -17,270 +17,284 @@ Partial Class frmInventory
 
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        lblItemName = New Label()
-        lblCategory = New Label()
-        lblQuantity = New Label()
-        lblCondition = New Label()
-        lblLocation = New Label()
-        txtItemName = New TextBox()
-        txtQuantity = New TextBox()
-        txtLocation = New TextBox()
-        txtCondition = New TextBox()
-        txtCategory = New TextBox()
-        cmbCategory = New ComboBox()
-        cmbCondition = New ComboBox()
-        cmbLocation = New ComboBox()
-        btnAdd = New Button()
-        btnUpdate = New Button()
-        btnDelete = New Button()
-        btnClear = New Button()
-        btnRefresh = New Button()
-        btnSearch = New Button()
-        lblSearch = New Label()
-        txtSearch = New TextBox()
-        dgvInventory = New DataGridView()
-        btnBack = New Button()
-        CType(dgvInventory, ComponentModel.ISupportInitialize).BeginInit()
-        SuspendLayout()
-
+        Me.lblItemName = New System.Windows.Forms.Label()
+        Me.lblCategory = New System.Windows.Forms.Label()
+        Me.lblQuantity = New System.Windows.Forms.Label()
+        Me.lblCondition = New System.Windows.Forms.Label()
+        Me.lblLocation = New System.Windows.Forms.Label()
+        Me.txtItemName = New System.Windows.Forms.TextBox()
+        Me.txtQuantity = New System.Windows.Forms.TextBox()
+        Me.txtLocation = New System.Windows.Forms.TextBox()
+        Me.txtCondition = New System.Windows.Forms.TextBox()
+        Me.txtCategory = New System.Windows.Forms.TextBox()
+        Me.cmbCategory = New System.Windows.Forms.ComboBox()
+        Me.cmbCondition = New System.Windows.Forms.ComboBox()
+        Me.cmbLocation = New System.Windows.Forms.ComboBox()
+        Me.btnAdd = New System.Windows.Forms.Button()
+        Me.btnUpdate = New System.Windows.Forms.Button()
+        Me.btnClear = New System.Windows.Forms.Button()
+        Me.btnRefresh = New System.Windows.Forms.Button()
+        Me.btnSearch = New System.Windows.Forms.Button()
+        Me.lblSearch = New System.Windows.Forms.Label()
+        Me.txtSearch = New System.Windows.Forms.TextBox()
+        Me.dgvInventory = New System.Windows.Forms.DataGridView()
+        Me.btnBack = New System.Windows.Forms.Button()
+        CType(Me.dgvInventory, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
+        '
         'lblItemName
-        lblItemName.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblItemName.Location = New Point(40, 80)
-        lblItemName.Name = "lblItemName"
-        lblItemName.Size = New Size(100, 25)
-        lblItemName.TabIndex = 0
-        lblItemName.Text = "Item Name:"
-
+        '
+        Me.lblItemName.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemName.Location = New System.Drawing.Point(40, 80)
+        Me.lblItemName.Name = "lblItemName"
+        Me.lblItemName.Size = New System.Drawing.Size(100, 25)
+        Me.lblItemName.TabIndex = 0
+        Me.lblItemName.Text = "Item Name:"
+        '
         'lblCategory
-        lblCategory.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblCategory.Location = New Point(400, 80)
-        lblCategory.Name = "lblCategory"
-        lblCategory.Size = New Size(80, 25)
-        lblCategory.TabIndex = 1
-        lblCategory.Text = "Category:"
-
+        '
+        Me.lblCategory.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCategory.Location = New System.Drawing.Point(400, 80)
+        Me.lblCategory.Name = "lblCategory"
+        Me.lblCategory.Size = New System.Drawing.Size(80, 25)
+        Me.lblCategory.TabIndex = 1
+        Me.lblCategory.Text = "Category:"
+        '
         'lblQuantity
-        lblQuantity.Location = New Point(40, 120)
-        lblQuantity.Name = "lblQuantity"
-        lblQuantity.Size = New Size(100, 25)
-        lblQuantity.TabIndex = 2
-        lblQuantity.Text = "Quantity:"
-
+        '
+        Me.lblQuantity.Location = New System.Drawing.Point(40, 120)
+        Me.lblQuantity.Name = "lblQuantity"
+        Me.lblQuantity.Size = New System.Drawing.Size(100, 25)
+        Me.lblQuantity.TabIndex = 2
+        Me.lblQuantity.Text = "Quantity:"
+        '
         'lblCondition
-        lblCondition.AutoSize = True
-        lblCondition.Location = New Point(260, 120)
-        lblCondition.Name = "lblCondition"
-        lblCondition.Size = New Size(63, 15)
-        lblCondition.TabIndex = 3
-        lblCondition.Text = "Condition:"
-
+        '
+        Me.lblCondition.AutoSize = True
+        Me.lblCondition.Location = New System.Drawing.Point(260, 120)
+        Me.lblCondition.Name = "lblCondition"
+        Me.lblCondition.Size = New System.Drawing.Size(63, 15)
+        Me.lblCondition.TabIndex = 3
+        Me.lblCondition.Text = "Condition:"
+        '
         'lblLocation
-        lblLocation.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        lblLocation.Location = New Point(600, 120)
-        lblLocation.Name = "lblLocation"
-        lblLocation.Size = New Size(80, 25)
-        lblLocation.TabIndex = 4
-        lblLocation.Text = "Location:"
-
+        '
+        Me.lblLocation.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblLocation.Location = New System.Drawing.Point(600, 120)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(80, 25)
+        Me.lblLocation.TabIndex = 4
+        Me.lblLocation.Text = "Location:"
+        '
         'txtItemName
-        txtItemName.Location = New Point(133, 80)
-        txtItemName.Name = "txtItemName"
-        txtItemName.Size = New Size(200, 23)
-        txtItemName.TabIndex = 5
-
+        '
+        Me.txtItemName.Location = New System.Drawing.Point(133, 80)
+        Me.txtItemName.Name = "txtItemName"
+        Me.txtItemName.Size = New System.Drawing.Size(200, 23)
+        Me.txtItemName.TabIndex = 5
+        '
         'txtQuantity
-        txtQuantity.Location = New Point(140, 120)
-        txtQuantity.Name = "txtQuantity"
-        txtQuantity.Size = New Size(80, 23)
-        txtQuantity.TabIndex = 6
-
+        '
+        Me.txtQuantity.Location = New System.Drawing.Point(140, 120)
+        Me.txtQuantity.Name = "txtQuantity"
+        Me.txtQuantity.Size = New System.Drawing.Size(80, 23)
+        Me.txtQuantity.TabIndex = 6
+        '
         'txtLocation
-        txtLocation.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        txtLocation.Location = New Point(680, 120)
-        txtLocation.Name = "txtLocation"
-        txtLocation.Size = New Size(200, 23)
-        txtLocation.TabIndex = 7
-        txtLocation.Visible = False
-
+        '
+        Me.txtLocation.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtLocation.Location = New System.Drawing.Point(680, 120)
+        Me.txtLocation.Name = "txtLocation"
+        Me.txtLocation.Size = New System.Drawing.Size(200, 23)
+        Me.txtLocation.TabIndex = 7
+        Me.txtLocation.Visible = False
+        '
         'txtCondition
-        txtCondition.Location = New Point(350, 120)
-        txtCondition.Name = "txtCondition"
-        txtCondition.Size = New Size(200, 23)
-        txtCondition.TabIndex = 8
-        txtCondition.Visible = False
-
+        '
+        Me.txtCondition.Location = New System.Drawing.Point(350, 120)
+        Me.txtCondition.Name = "txtCondition"
+        Me.txtCondition.Size = New System.Drawing.Size(200, 23)
+        Me.txtCondition.TabIndex = 8
+        Me.txtCondition.Visible = False
+        '
         'txtCategory
-        txtCategory.Location = New Point(480, 80)
-        txtCategory.Name = "txtCategory"
-        txtCategory.Size = New Size(200, 23)
-        txtCategory.TabIndex = 9
-        txtCategory.Visible = False
-
+        '
+        Me.txtCategory.Location = New System.Drawing.Point(480, 80)
+        Me.txtCategory.Name = "txtCategory"
+        Me.txtCategory.Size = New System.Drawing.Size(200, 23)
+        Me.txtCategory.TabIndex = 9
+        Me.txtCategory.Visible = False
+        '
         'cmbCategory
-        cmbCategory.DropDownStyle = ComboBoxStyle.DropDownList
-        cmbCategory.Font = New Font("Segoe UI", 9.75F)
-        cmbCategory.FormattingEnabled = True
-        cmbCategory.Location = New Point(480, 80)
-        cmbCategory.Name = "cmbCategory"
-        cmbCategory.Size = New Size(200, 25)
-        cmbCategory.TabIndex = 24
-
+        '
+        Me.cmbCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbCategory.Font = New System.Drawing.Font("Segoe UI", 9.75!)
+        Me.cmbCategory.FormattingEnabled = True
+        Me.cmbCategory.Location = New System.Drawing.Point(480, 80)
+        Me.cmbCategory.Name = "cmbCategory"
+        Me.cmbCategory.Size = New System.Drawing.Size(200, 25)
+        Me.cmbCategory.TabIndex = 24
+        '
         'cmbCondition
-        cmbCondition.DropDownStyle = ComboBoxStyle.DropDownList
-        cmbCondition.Font = New Font("Segoe UI", 9.75F)
-        cmbCondition.FormattingEnabled = True
-        cmbCondition.Location = New Point(350, 120)
-        cmbCondition.Name = "cmbCondition"
-        cmbCondition.Size = New Size(200, 25)
-        cmbCondition.TabIndex = 25
-
+        '
+        Me.cmbCondition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbCondition.Font = New System.Drawing.Font("Segoe UI", 9.75!)
+        Me.cmbCondition.FormattingEnabled = True
+        Me.cmbCondition.Location = New System.Drawing.Point(350, 120)
+        Me.cmbCondition.Name = "cmbCondition"
+        Me.cmbCondition.Size = New System.Drawing.Size(200, 25)
+        Me.cmbCondition.TabIndex = 25
+        '
         'cmbLocation
-        cmbLocation.Anchor = AnchorStyles.Top Or AnchorStyles.Right
-        cmbLocation.DropDownStyle = ComboBoxStyle.DropDownList
-        cmbLocation.Font = New Font("Segoe UI", 9.75F)
-        cmbLocation.FormattingEnabled = True
-        cmbLocation.Location = New Point(680, 120)
-        cmbLocation.Name = "cmbLocation"
-        cmbLocation.Size = New Size(200, 25)
-        cmbLocation.TabIndex = 26
-
+        '
+        Me.cmbLocation.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmbLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbLocation.Font = New System.Drawing.Font("Segoe UI", 9.75!)
+        Me.cmbLocation.FormattingEnabled = True
+        Me.cmbLocation.Location = New System.Drawing.Point(680, 120)
+        Me.cmbLocation.Name = "cmbLocation"
+        Me.cmbLocation.Size = New System.Drawing.Size(200, 25)
+        Me.cmbLocation.TabIndex = 26
+        '
         'btnAdd
-        btnAdd.BackColor = Color.SteelBlue
-        btnAdd.ForeColor = Color.White
-        btnAdd.Location = New Point(140, 170)
-        btnAdd.Name = "btnAdd"
-        btnAdd.Size = New Size(90, 35)
-        btnAdd.TabIndex = 10
-        btnAdd.Text = "Add"
-        btnAdd.UseVisualStyleBackColor = False
-
+        '
+        Me.btnAdd.BackColor = System.Drawing.Color.SteelBlue
+        Me.btnAdd.ForeColor = System.Drawing.Color.White
+        Me.btnAdd.Location = New System.Drawing.Point(140, 170)
+        Me.btnAdd.Name = "btnAdd"
+        Me.btnAdd.Size = New System.Drawing.Size(90, 35)
+        Me.btnAdd.TabIndex = 10
+        Me.btnAdd.Text = "Add"
+        Me.btnAdd.UseVisualStyleBackColor = False
+        '
         'btnUpdate
-        btnUpdate.BackColor = Color.SteelBlue
-        btnUpdate.ForeColor = Color.White
-        btnUpdate.Location = New Point(240, 170)
-        btnUpdate.Name = "btnUpdate"
-        btnUpdate.Size = New Size(90, 35)
-        btnUpdate.TabIndex = 11
-        btnUpdate.Text = "Update"
-        btnUpdate.UseVisualStyleBackColor = False
-
-        'btnDelete
-        btnDelete.BackColor = Color.SteelBlue
-        btnDelete.ForeColor = Color.White
-        btnDelete.Location = New Point(340, 170)
-        btnDelete.Name = "btnDelete"
-        btnDelete.Size = New Size(90, 35)
-        btnDelete.TabIndex = 12
-        btnDelete.Text = "Delete"
-        btnDelete.UseVisualStyleBackColor = False
-
+        '
+        Me.btnUpdate.BackColor = System.Drawing.Color.SteelBlue
+        Me.btnUpdate.ForeColor = System.Drawing.Color.White
+        Me.btnUpdate.Location = New System.Drawing.Point(240, 170)
+        Me.btnUpdate.Name = "btnUpdate"
+        Me.btnUpdate.Size = New System.Drawing.Size(90, 35)
+        Me.btnUpdate.TabIndex = 11
+        Me.btnUpdate.Text = "Update"
+        Me.btnUpdate.UseVisualStyleBackColor = False
+        '
         'btnClear
-        btnClear.BackColor = Color.SteelBlue
-        btnClear.ForeColor = Color.White
-        btnClear.Location = New Point(440, 170)
-        btnClear.Name = "btnClear"
-        btnClear.Size = New Size(90, 35)
-        btnClear.TabIndex = 13
-        btnClear.Text = "Clear"
-        btnClear.UseVisualStyleBackColor = False
-
+        '
+        Me.btnClear.BackColor = System.Drawing.Color.SteelBlue
+        Me.btnClear.ForeColor = System.Drawing.Color.White
+        Me.btnClear.Location = New System.Drawing.Point(340, 170)
+        Me.btnClear.Name = "btnClear"
+        Me.btnClear.Size = New System.Drawing.Size(90, 35)
+        Me.btnClear.TabIndex = 12
+        Me.btnClear.Text = "Clear"
+        Me.btnClear.UseVisualStyleBackColor = False
+        '
         'btnRefresh
-        btnRefresh.BackColor = Color.SteelBlue
-        btnRefresh.ForeColor = Color.White
-        btnRefresh.Location = New Point(540, 170)
-        btnRefresh.Name = "btnRefresh"
-        btnRefresh.Size = New Size(90, 35)
-        btnRefresh.TabIndex = 14
-        btnRefresh.Text = "Refresh"
-        btnRefresh.UseVisualStyleBackColor = False
-
+        '
+        Me.btnRefresh.BackColor = System.Drawing.Color.SteelBlue
+        Me.btnRefresh.ForeColor = System.Drawing.Color.White
+        Me.btnRefresh.Location = New System.Drawing.Point(440, 170)
+        Me.btnRefresh.Name = "btnRefresh"
+        Me.btnRefresh.Size = New System.Drawing.Size(90, 35)
+        Me.btnRefresh.TabIndex = 13
+        Me.btnRefresh.Text = "Refresh"
+        Me.btnRefresh.UseVisualStyleBackColor = False
+        '
         'btnSearch
-        btnSearch.BackColor = Color.SteelBlue
-        btnSearch.ForeColor = Color.White
-        btnSearch.Location = New Point(380, 230)
-        btnSearch.Name = "btnSearch"
-        btnSearch.Size = New Size(90, 30)
-        btnSearch.TabIndex = 15
-        btnSearch.Text = "Search"
-        btnSearch.UseVisualStyleBackColor = False
-
+        '
+        Me.btnSearch.BackColor = System.Drawing.Color.SteelBlue
+        Me.btnSearch.ForeColor = System.Drawing.Color.White
+        Me.btnSearch.Location = New System.Drawing.Point(380, 230)
+        Me.btnSearch.Name = "btnSearch"
+        Me.btnSearch.Size = New System.Drawing.Size(90, 30)
+        Me.btnSearch.TabIndex = 15
+        Me.btnSearch.Text = "Search"
+        Me.btnSearch.UseVisualStyleBackColor = False
+        '
         'lblSearch
-        lblSearch.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblSearch.Location = New Point(40, 230)
-        lblSearch.Name = "lblSearch"
-        lblSearch.Size = New Size(80, 25)
-        lblSearch.TabIndex = 16
-        lblSearch.Text = "Search:"
-
+        '
+        Me.lblSearch.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSearch.Location = New System.Drawing.Point(40, 230)
+        Me.lblSearch.Name = "lblSearch"
+        Me.lblSearch.Size = New System.Drawing.Size(80, 25)
+        Me.lblSearch.TabIndex = 16
+        Me.lblSearch.Text = "Search:"
+        '
         'txtSearch
-        txtSearch.Location = New Point(120, 230)
-        txtSearch.Name = "txtSearch"
-        txtSearch.Size = New Size(250, 23)
-        txtSearch.TabIndex = 17
-
+        '
+        Me.txtSearch.Location = New System.Drawing.Point(120, 230)
+        Me.txtSearch.Name = "txtSearch"
+        Me.txtSearch.Size = New System.Drawing.Size(250, 23)
+        Me.txtSearch.TabIndex = 17
+        '
         'dgvInventory
-        dgvInventory.AllowUserToAddRows = False
-        dgvInventory.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        dgvInventory.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-        dgvInventory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        dgvInventory.Location = New Point(40, 280)
-        dgvInventory.Name = "dgvInventory"
-        dgvInventory.ReadOnly = True
-        dgvInventory.SelectionMode = DataGridViewSelectionMode.FullRowSelect
-        dgvInventory.Size = New Size(900, 300)
-        dgvInventory.TabIndex = 18
-
+        '
+        Me.dgvInventory.AllowUserToAddRows = False
+        Me.dgvInventory.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.dgvInventory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
+        Me.dgvInventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvInventory.Location = New System.Drawing.Point(40, 280)
+        Me.dgvInventory.Name = "dgvInventory"
+        Me.dgvInventory.ReadOnly = True
+        Me.dgvInventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.dgvInventory.Size = New System.Drawing.Size(900, 300)
+        Me.dgvInventory.TabIndex = 18
+        '
         'btnBack
-        btnBack.BackColor = Color.FromArgb(0, 120, 215)
-        btnBack.FlatAppearance.BorderSize = 0
-        btnBack.FlatStyle = FlatStyle.Flat
-        btnBack.Font = New Font("Segoe UI", 9.75!, FontStyle.Bold, GraphicsUnit.Point)
-        btnBack.ForeColor = Color.White
-        btnBack.Location = New Point(20, 20)
-        btnBack.Name = "btnBack"
-        btnBack.Size = New Size(160, 35)
-        btnBack.TabIndex = 19
-        btnBack.Text = "← Back to Main Menu"
-        btnBack.UseVisualStyleBackColor = False
-
+        '
+        Me.btnBack.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(120, Byte), Integer), CType(CType(215, Byte), Integer))
+        Me.btnBack.FlatAppearance.BorderSize = 0
+        Me.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnBack.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+        Me.btnBack.ForeColor = System.Drawing.Color.White
+        Me.btnBack.Location = New System.Drawing.Point(20, 20)
+        Me.btnBack.Name = "btnBack"
+        Me.btnBack.Size = New System.Drawing.Size(160, 35)
+        Me.btnBack.TabIndex = 19
+        Me.btnBack.Text = "← Back to Main Menu"
+        Me.btnBack.UseVisualStyleBackColor = False
+        '
         'frmInventory
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
-        AutoScaleMode = AutoScaleMode.Font
-        BackColor = Color.WhiteSmoke
-        ClientSize = New Size(984, 611)
-        Controls.Add(btnBack)
-        Controls.Add(dgvInventory)
-        Controls.Add(txtSearch)
-        Controls.Add(lblSearch)
-        Controls.Add(btnSearch)
-        Controls.Add(btnRefresh)
-        Controls.Add(btnClear)
-        Controls.Add(btnDelete)
-        Controls.Add(btnUpdate)
-        Controls.Add(btnAdd)
-        Controls.Add(cmbCategory)
-        Controls.Add(cmbCondition)
-        Controls.Add(cmbLocation)
-        Controls.Add(txtCategory)
-        Controls.Add(txtCondition)
-        Controls.Add(txtLocation)
-        Controls.Add(txtQuantity)
-        Controls.Add(txtItemName)
-        Controls.Add(lblLocation)
-        Controls.Add(lblCondition)
-        Controls.Add(lblQuantity)
-        Controls.Add(lblCategory)
-        Controls.Add(lblItemName)
-        FormBorderStyle = FormBorderStyle.Sizable
-        MaximizeBox = True
-        MinimumSize = New Size(1000, 650)
-        Name = "frmInventory"
-        StartPosition = FormStartPosition.CenterScreen
-        Text = "Inventory Management"
-        WindowState = FormWindowState.Maximized
-        CType(dgvInventory, ComponentModel.ISupportInitialize).EndInit()
-        ResumeLayout(False)
-        PerformLayout()
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.ClientSize = New System.Drawing.Size(984, 611)
+        Me.Controls.Add(Me.btnBack)
+        Me.Controls.Add(Me.dgvInventory)
+        Me.Controls.Add(Me.txtSearch)
+        Me.Controls.Add(Me.lblSearch)
+        Me.Controls.Add(Me.btnSearch)
+        Me.Controls.Add(Me.btnRefresh)
+        Me.Controls.Add(Me.btnClear)
+        Me.Controls.Add(Me.btnUpdate)
+        Me.Controls.Add(Me.btnAdd)
+        Me.Controls.Add(Me.cmbCategory)
+        Me.Controls.Add(Me.cmbCondition)
+        Me.Controls.Add(Me.cmbLocation)
+        Me.Controls.Add(Me.txtCategory)
+        Me.Controls.Add(Me.txtCondition)
+        Me.Controls.Add(Me.txtLocation)
+        Me.Controls.Add(Me.txtQuantity)
+        Me.Controls.Add(Me.txtItemName)
+        Me.Controls.Add(Me.lblLocation)
+        Me.Controls.Add(Me.lblCondition)
+        Me.Controls.Add(Me.lblQuantity)
+        Me.Controls.Add(Me.lblCategory)
+        Me.Controls.Add(Me.lblItemName)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable
+        Me.MaximizeBox = True
+        Me.MinimumSize = New System.Drawing.Size(1000, 650)
+        Me.Name = "frmInventory"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "Inventory Management"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
+        CType(Me.dgvInventory, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
     End Sub
 
     Friend WithEvents lblItemName As Label
@@ -295,7 +309,6 @@ Partial Class frmInventory
     Friend WithEvents txtCategory As TextBox
     Friend WithEvents btnAdd As Button
     Friend WithEvents btnUpdate As Button
-    Friend WithEvents btnDelete As Button
     Friend WithEvents btnClear As Button
     Friend WithEvents btnRefresh As Button
     Friend WithEvents btnSearch As Button

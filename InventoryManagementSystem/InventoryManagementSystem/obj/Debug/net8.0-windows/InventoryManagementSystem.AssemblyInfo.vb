@@ -16,7 +16,7 @@ Imports System.Reflection
 <Assembly: System.Reflection.AssemblyCompanyAttribute("InventoryManagementSystem"),  _
  Assembly: System.Reflection.AssemblyConfigurationAttribute("Debug"),  _
  Assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0"),  _
- Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+adca477efce1384eb89158be4e1d7f74fc328c0f"),  _
+ Assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4ae4c2541ccf78434979d50a0bce6b61c6a700d1"),  _
  Assembly: System.Reflection.AssemblyProductAttribute("InventoryManagementSystem"),  _
  Assembly: System.Reflection.AssemblyTitleAttribute("InventoryManagementSystem"),  _
  Assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0"),  _

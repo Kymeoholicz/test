@@ -67,9 +67,6 @@ Public Class frmLogin
                     "Path: " & dbPath & vbCrLf & vbCrLf &
                     "Please ensure Microsoft Access Database Engine is installed.",
                     "Connection Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Else
-                ' Check and fix database structure if needed
-                DatabaseFixHelper.FixUserTableStructure()
             End If
         Catch ex As Exception
             MessageBox.Show("Database initialization error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
@@ -89,67 +86,28 @@ Public Class frmLogin
             Return
         End If
 
-        Try
-            If AuthenticateUser(txtUsername.Text.Trim(), txtPassword.Text) Then
-                MessageBox.Show("Login successful! Welcome " & CurrentUser.FullName, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        If AuthenticateUser(txtUsername.Text.Trim(), txtPassword.Text) Then
+            MessageBox.Show("Login successful! Welcome " & CurrentUser.FullName, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
-                LogActivity("Login", "User logged in successfully")
+            LogActivity("Login", "User logged in successfully")
 
-                ' Show main menu and handle logout loop
-                Do
-                    Dim mainMenu As New frmMainMenu()
-                    Dim result As DialogResult = DialogResult.None
+            Dim mainMenu As New frmMainMenu()
+            Me.Hide()
+            mainMenu.ShowDialog()
+            Me.Close()
+        Else
+            loginAttempts += 1
+            Dim remainingAttempts As Integer = MaxLoginAttempts - loginAttempts
 
-                    Try
-                        result = mainMenu.ShowDialog()
-                    Catch ex As Exception
-                        Debug.WriteLine($"Main Menu error: {ex.GetType().Name} - {ex.Message}")
-                        result = DialogResult.Cancel
-                    Finally
-                        ' Dispose immediately after closing
-                        Try
-                            mainMenu.Dispose()
-                        Catch
-                        End Try
-                    End Try
-
-                    ' If user logged out (DialogResult.Retry), show login again
-                    ' Otherwise (Exit or closed), exit the loop
-                    If result <> DialogResult.Retry Then
-                        Exit Do
-                    End If
-
-                    ' User logged out, clear fields and stay on login
-                    txtUsername.Clear()
-                    txtPassword.Clear()
-                    txtUsername.Focus()
-                    loginAttempts = 0 ' Reset login attempts
-                    Return ' Stay on login form
-
-                Loop
-
-                ' User exited, close login form
-                Me.Close()
+            If remainingAttempts > 0 Then
+                MessageBox.Show("Invalid username or password!" & vbCrLf & "Attempts remaining: " & remainingAttempts, "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                txtPassword.Clear()
+                txtPassword.Focus()
             Else
-                loginAttempts += 1
-                Dim remainingAttempts As Integer = MaxLoginAttempts - loginAttempts
-
-                If remainingAttempts > 0 Then
-                    MessageBox.Show("Invalid username or password!" & vbCrLf & "Attempts remaining: " & remainingAttempts, "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    txtPassword.Clear()
-                    txtPassword.Focus()
-                Else
-                    MessageBox.Show("Maximum login attempts exceeded. Application will close.", "Security", MessageBoxButtons.OK, MessageBoxIcon.Stop)
-                    Environment.Exit(0)
-                End If
+                MessageBox.Show("Maximum login attempts exceeded. Application will close.", "Security", MessageBoxButtons.OK, MessageBoxIcon.Stop)
+                Application.Exit()
             End If
-        Catch ex As Exception
-            MessageBox.Show($"Login error: {ex.GetType().Name}" & vbCrLf & vbCrLf &
-                          $"Message: {ex.Message}" & vbCrLf & vbCrLf &
-                          $"Details: {ex.StackTrace}",
-                          "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Environment.Exit(1)
-        End Try
+        End If
     End Sub
 
     Private Function AuthenticateUser(username As String, password As String) As Boolean
@@ -160,8 +118,11 @@ Public Class frmLogin
             ' Hash the input password before comparing
             Dim hashedPassword As String = HashPassword(password)
 
-            ' FIXED: Use [UserPassword] instead of Password (reserved word in Access)
-            cmd = New OleDbCommand("SELECT UserID, Username, FullName, UserRole, IsActive FROM tblUsers WHERE Username = ? AND [UserPassword] = ?", con)
+            ' ✅ Corrected SQL to match actual Access field names
+            cmd = New OleDbCommand("
+            SELECT UserID, Username, FullName, UserRole, IsActive 
+            FROM tblUsers 
+            WHERE Username = ? AND UserPassword = ?", con)
 
             cmd.Parameters.AddWithValue("@1", username)
             cmd.Parameters.AddWithValue("@2", hashedPassword)
@@ -169,32 +130,16 @@ Public Class frmLogin
             dr = cmd.ExecuteReader()
 
             If dr.Read() Then
-                ' FIXED: Handle IsActive as various possible types (Boolean, Integer, String)
-                Dim isActiveValue As Object = dr("IsActive")
-                Dim isActive As Boolean = False
-
-                If IsDBNull(isActiveValue) Then
-                    isActive = True ' Default to active if null
-                ElseIf TypeOf isActiveValue Is Boolean Then
-                    isActive = CBool(isActiveValue)
-                ElseIf TypeOf isActiveValue Is Integer Then
-                    isActive = (CInt(isActiveValue) <> 0)
-                ElseIf TypeOf isActiveValue Is String Then
-                    isActive = (isActiveValue.ToString().ToLower() = "true" Or isActiveValue.ToString() = "1" Or isActiveValue.ToString().ToLower() = "yes")
-                Else
-                    isActive = True ' Default to active for unknown types
-                End If
-
-                If Not isActive Then
+                If Not CBool(dr("IsActive")) Then
                     MessageBox.Show("Your account has been deactivated.", "Account Inactive", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Return False
                 End If
 
-                ' Assign user details to CurrentUser object
+                ' ✅ Assign user details to CurrentUser object
                 CurrentUser.UserID = CInt(dr("UserID"))
-                CurrentUser.Username = If(IsDBNull(dr("Username")), "", dr("Username").ToString())
-                CurrentUser.FullName = If(IsDBNull(dr("FullName")), "", dr("FullName").ToString())
-                CurrentUser.UserRole = If(IsDBNull(dr("UserRole")), "User", dr("UserRole").ToString())
+                CurrentUser.Username = dr("Username").ToString()
+                CurrentUser.FullName = dr("FullName").ToString()
+                CurrentUser.UserRole = dr("UserRole").ToString()
                 CurrentUser.IsLoggedIn = True
 
                 Return True
@@ -203,18 +148,14 @@ Public Class frmLogin
             End If
 
         Catch ex As Exception
-            MessageBox.Show("Login error: " & ex.Message & vbCrLf & vbCrLf & "Stack Trace: " & ex.StackTrace, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Login error: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Return False
         Finally
-            If dr IsNot Nothing Then
-                Try
-                    dr.Close()
-                Catch
-                End Try
-            End If
+            If dr IsNot Nothing Then dr.Close()
             If con.State = ConnectionState.Open Then con.Close()
         End Try
     End Function
+
 
     Private Function HashPassword(password As String) As String
         Using sha256 As SHA256 = SHA256.Create()
@@ -267,7 +208,17 @@ Public Class frmLogin
         MessageBox.Show("Please contact your system administrator to reset your password.", "Password Recovery", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 
-    Private Sub btnDatabaseInfo_Click(sender As Object, e As EventArgs) Handles btnDatabaseInfo.Click
-        DatabaseConfig.ShowDatabaseInfo()
+    Private Sub btnCopyright_Click(sender As Object, e As EventArgs) Handles btnCopyright.Click
+        ' Display copyright information
+        Dim copyrightMessage As String = "Inventory Management System" & vbCrLf & vbCrLf &
+            "© 2025 All Rights Reserved" & vbCrLf & vbCrLf &
+            "Version 1.0" & vbCrLf & vbCrLf &
+            "Developed using Visual Basic .NET" & vbCrLf &
+            "Framework: .NET 8.0" & vbCrLf &
+            "Database: Microsoft Access" & vbCrLf & vbCrLf &
+            "This software is provided as-is without warranty." & vbCrLf &
+            "For support, contact your system administrator."
+
+        MessageBox.Show(copyrightMessage, "Copyright Information", MessageBoxButtons.OK, MessageBoxIcon.Information)
     End Sub
 End Class
