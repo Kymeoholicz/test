@@ -1,0 +1,92 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Admin\\source\\repos\\kyme\\InventoryManagementSystem\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{ACFDF1F7-373D-4B1F-875A-C1224EE350F3}|InventoryManagementSystem\\InventoryManagementSystem.vbproj|c:\\users\\admin\\source\\repos\\kyme\\inventorymanagementsystem\\inventorymanagementsystem\\forms\\frmlogin.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{ACFDF1F7-373D-4B1F-875A-C1224EE350F3}|InventoryManagementSystem\\InventoryManagementSystem.vbproj|solutionrelative:inventorymanagementsystem\\forms\\frmlogin.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACFDF1F7-373D-4B1F-875A-C1224EE350F3}|InventoryManagementSystem\\InventoryManagementSystem.vbproj|c:\\users\\admin\\source\\repos\\kyme\\inventorymanagementsystem\\inventorymanagementsystem\\forms\\frmlogin.designer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{ACFDF1F7-373D-4B1F-875A-C1224EE350F3}|InventoryManagementSystem\\InventoryManagementSystem.vbproj|solutionrelative:inventorymanagementsystem\\forms\\frmlogin.designer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACFDF1F7-373D-4B1F-875A-C1224EE350F3}|InventoryManagementSystem\\InventoryManagementSystem.vbproj|c:\\users\\admin\\source\\repos\\kyme\\inventorymanagementsystem\\inventorymanagementsystem\\forms\\frminventory.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{ACFDF1F7-373D-4B1F-875A-C1224EE350F3}|InventoryManagementSystem\\InventoryManagementSystem.vbproj|solutionrelative:inventorymanagementsystem\\forms\\frminventory.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ACFDF1F7-373D-4B1F-875A-C1224EE350F3}|InventoryManagementSystem\\InventoryManagementSystem.vbproj|c:\\users\\admin\\source\\repos\\kyme\\inventorymanagementsystem\\inventorymanagementsystem\\forms\\frminventory.designer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{ACFDF1F7-373D-4B1F-875A-C1224EE350F3}|InventoryManagementSystem\\InventoryManagementSystem.vbproj|solutionrelative:inventorymanagementsystem\\forms\\frminventory.designer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "frmLogin.vb",
+              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\kyme\\InventoryManagementSystem\\InventoryManagementSystem\\Forms\\frmLogin.vb",
+              "RelativeDocumentMoniker": "InventoryManagementSystem\\Forms\\frmLogin.vb",
+              "ToolTip": "C:\\Users\\Admin\\source\\repos\\kyme\\InventoryManagementSystem\\InventoryManagementSystem\\Forms\\frmLogin.vb",
+              "RelativeToolTip": "InventoryManagementSystem\\Forms\\frmLogin.vb",
+              "ViewState": "AgIAAMAAAAAAAAAAAAAIwN8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-10-28T23:47:39.498Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "frmLogin.Designer.vb",
+              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\kyme\\InventoryManagementSystem\\InventoryManagementSystem\\Forms\\frmLogin.Designer.vb",
+              "RelativeDocumentMoniker": "InventoryManagementSystem\\Forms\\frmLogin.Designer.vb",
+              "ToolTip": "C:\\Users\\Admin\\source\\repos\\kyme\\InventoryManagementSystem\\InventoryManagementSystem\\Forms\\frmLogin.Designer.vb",
+              "RelativeToolTip": "InventoryManagementSystem\\Forms\\frmLogin.Designer.vb",
+              "ViewState": "AgIAAMcAAAAAAAAAAAAwwPUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-10-28T23:47:32.207Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "frmInventory.Designer.vb",
+              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\kyme\\InventoryManagementSystem\\InventoryManagementSystem\\Forms\\frmInventory.Designer.vb",
+              "RelativeDocumentMoniker": "InventoryManagementSystem\\Forms\\frmInventory.Designer.vb",
+              "ToolTip": "C:\\Users\\Admin\\source\\repos\\kyme\\InventoryManagementSystem\\InventoryManagementSystem\\Forms\\frmInventory.Designer.vb",
+              "RelativeToolTip": "InventoryManagementSystem\\Forms\\frmInventory.Designer.vb",
+              "ViewState": "AgIAABMBAAAAAAAAAAAwwEEBAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-10-28T23:39:50.74Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "frmInventory.vb",
+              "DocumentMoniker": "C:\\Users\\Admin\\source\\repos\\kyme\\InventoryManagementSystem\\InventoryManagementSystem\\Forms\\frmInventory.vb",
+              "RelativeDocumentMoniker": "InventoryManagementSystem\\Forms\\frmInventory.vb",
+              "ToolTip": "C:\\Users\\Admin\\source\\repos\\kyme\\InventoryManagementSystem\\InventoryManagementSystem\\Forms\\frmInventory.vb",
+              "RelativeToolTip": "InventoryManagementSystem\\Forms\\frmInventory.vb",
+              "ViewState": "AgIAAJUBAAAAAAAAAAAwwLQBAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-10-28T23:39:38.371Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

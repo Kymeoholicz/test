@@ -10,16 +10,20 @@ Public Class frmInventory
 
     ' ===== Form Load =====
     Private Sub frmInventory_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Me.Text = "Inventory Management"
-        Me.WindowState = FormWindowState.Maximized
+        Try
+            Me.Text = "Inventory Management"
+            Me.WindowState = FormWindowState.Maximized
 
-        AddHandler Me.HandleDestroyed, Sub() GC.Collect()
+            AddHandler Me.HandleDestroyed, Sub() GC.Collect()
 
-        ' Populate ComboBoxes
-        PopulateComboBoxes()
+            ' Populate ComboBoxes
+            PopulateComboBoxes()
 
-        LoadData()
-        ClearFields()
+            LoadData()
+            ClearFields()
+        Catch ex As Exception
+            MessageBox.Show("Error loading form: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
     End Sub
 
     ' ===== Populate ComboBoxes =====
@@ -126,27 +130,31 @@ Public Class frmInventory
 
     ' ===== Clear Fields =====
     Private Sub ClearFields()
-        txtItemName.Clear()
-        txtQuantity.Clear()
-        txtSearch.Clear()
+        Try
+            txtItemName.Clear()
+            txtQuantity.Clear()
+            txtSearch.Clear()
 
-        ' Clear ComboBoxes
-        cmbCategory.SelectedIndex = -1
-        cmbCondition.SelectedIndex = -1
-        cmbLocation.SelectedIndex = -1
+            ' Clear ComboBoxes
+            cmbCategory.SelectedIndex = -1
+            cmbCondition.SelectedIndex = -1
+            cmbLocation.SelectedIndex = -1
 
-        ' Hide textboxes, show comboboxes
-        txtCategory.Visible = False
-        txtCondition.Visible = False
-        txtLocation.Visible = False
-        cmbCategory.Visible = True
-        cmbCondition.Visible = True
-        cmbLocation.Visible = True
+            ' Hide textboxes, show comboboxes
+            txtCategory.Visible = False
+            txtCondition.Visible = False
+            txtLocation.Visible = False
+            cmbCategory.Visible = True
+            cmbCondition.Visible = True
+            cmbLocation.Visible = True
 
-        selectedItemID = 0
-        btnAdd.Enabled = True
-        btnUpdate.Enabled = False
-        btnDelete.Enabled = False
+            selectedItemID = 0
+
+            If btnAdd IsNot Nothing Then btnAdd.Enabled = True
+            If btnUpdate IsNot Nothing Then btnUpdate.Enabled = False
+        Catch ex As Exception
+            Debug.WriteLine("ClearFields error: " & ex.Message)
+        End Try
     End Sub
 
     ' ===== Add Item =====
@@ -202,33 +210,6 @@ Public Class frmInventory
             ClearFields()
         Catch ex As Exception
             MessageBox.Show("Error updating item: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
-        End Try
-    End Sub
-
-    ' ===== Delete Item =====
-    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
-        If selectedItemID <= 0 Then Return
-        If MessageBox.Show("Are you sure you want to delete this item?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) <> DialogResult.Yes Then Return
-
-        Try
-            Using con As OleDbConnection = DatabaseConfig.GetConnection()
-                con.Open()
-
-                Using cmd As New OleDbCommand("DELETE FROM tblInventory WHERE ItemID=?", con)
-                    cmd.Parameters.Add("@ItemID", OleDbType.Integer).Value = selectedItemID
-                    cmd.ExecuteNonQuery()
-                End Using
-            End Using
-
-            MessageBox.Show("Item deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            LogActivity("Delete Inventory", $"Deleted item ID: {selectedItemID}")
-
-            If Not isClosing Then
-                LoadData()
-                ClearFields()
-            End If
-        Catch ex As Exception
-            MessageBox.Show("Error deleting item: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 
@@ -353,9 +334,8 @@ Public Class frmInventory
                 cmbLocation.SelectedIndex = cmbLocation.Items.Count - 1
             End If
 
-            btnAdd.Enabled = False
-            btnUpdate.Enabled = True
-            btnDelete.Enabled = True
+            If btnAdd IsNot Nothing Then btnAdd.Enabled = False
+            If btnUpdate IsNot Nothing Then btnUpdate.Enabled = True
         Catch ex As Exception
             If Not isClosing Then
                 MessageBox.Show("Error selecting row: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)

@@ -26,7 +26,7 @@ Partial Class frmLogin
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.btnDatabaseInfo = New System.Windows.Forms.Button()
+        Me.btnCopyright = New System.Windows.Forms.Button()
         Me.lblForgotPassword = New System.Windows.Forms.Label()
         Me.chkShowPassword = New System.Windows.Forms.CheckBox()
         Me.btnCancel = New System.Windows.Forms.Button()
@@ -78,7 +78,7 @@ Partial Class frmLogin
         '
         Me.Panel2.BackColor = System.Drawing.Color.White
         Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel2.Controls.Add(Me.btnDatabaseInfo)
+        Me.Panel2.Controls.Add(Me.btnCopyright)
         Me.Panel2.Controls.Add(Me.lblForgotPassword)
         Me.Panel2.Controls.Add(Me.chkShowPassword)
         Me.Panel2.Controls.Add(Me.btnCancel)
@@ -93,20 +93,20 @@ Partial Class frmLogin
         Me.Panel2.Size = New System.Drawing.Size(400, 380)
         Me.Panel2.TabIndex = 1
         '
-        'btnDatabaseInfo
+        'btnCopyright
         '
-        Me.btnDatabaseInfo.BackColor = System.Drawing.Color.FromArgb(CType(CType(108, Byte), Integer), CType(CType(117, Byte), Integer), CType(CType(125, Byte), Integer))
-        Me.btnDatabaseInfo.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btnDatabaseInfo.FlatAppearance.BorderSize = 0
-        Me.btnDatabaseInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnDatabaseInfo.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDatabaseInfo.ForeColor = System.Drawing.Color.White
-        Me.btnDatabaseInfo.Location = New System.Drawing.Point(285, 335)
-        Me.btnDatabaseInfo.Name = "btnDatabaseInfo"
-        Me.btnDatabaseInfo.Size = New System.Drawing.Size(100, 30)
-        Me.btnDatabaseInfo.TabIndex = 9
-        Me.btnDatabaseInfo.Text = "Database Info"
-        Me.btnDatabaseInfo.UseVisualStyleBackColor = False
+        Me.btnCopyright.BackColor = System.Drawing.Color.FromArgb(CType(CType(108, Byte), Integer), CType(CType(117, Byte), Integer), CType(CType(125, Byte), Integer))
+        Me.btnCopyright.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btnCopyright.FlatAppearance.BorderSize = 0
+        Me.btnCopyright.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnCopyright.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCopyright.ForeColor = System.Drawing.Color.White
+        Me.btnCopyright.Location = New System.Drawing.Point(285, 335)
+        Me.btnCopyright.Name = "btnCopyright"
+        Me.btnCopyright.Size = New System.Drawing.Size(100, 30)
+        Me.btnCopyright.TabIndex = 9
+        Me.btnCopyright.Text = "© Copyright"
+        Me.btnCopyright.UseVisualStyleBackColor = False
         '
         'lblForgotPassword
         '
@@ -242,5 +242,5 @@ Partial Class frmLogin
     Friend WithEvents btnCancel As Button
     Friend WithEvents chkShowPassword As CheckBox
     Friend WithEvents lblForgotPassword As Label
-    Friend WithEvents btnDatabaseInfo As Button
+    Friend WithEvents btnCopyright As Button
 End Class
